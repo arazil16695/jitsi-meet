@@ -17,7 +17,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "@amplitude/analytics-browser": "2.17.12",
-    "@amplitude/analytics-react-native": "1.4.13",
+    "@amplitude/analytics-react-native": "^1.4.13",
     "@braintree/sanitize-url": "7.0.0",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",

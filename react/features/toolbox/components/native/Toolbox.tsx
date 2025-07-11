@@ -67,14 +67,16 @@ function Toolbox(props: IProps) {
 
     const allButtons = useNativeToolboxButtons(customToolbarButtons);
 
-    const { mainMenuButtons } = getVisibleNativeButtons({
-        allButtons,
-        clientWidth,
-        iAmVisitor: _iAmVisitor,
-        mainToolbarButtonsThresholds,
-        toolbarButtons
-    });
+    const { mainMenuButtons: rawButtons } = getVisibleNativeButtons({
+    allButtons,
+    clientWidth,
+    iAmVisitor: _iAmVisitor,
+    mainToolbarButtonsThresholds,
+    toolbarButtons
+});
 
+// Remove chat button
+const mainMenuButtons = rawButtons.filter(button => button.key !== 'chat');
     const bottomEdge = Platform.OS === 'ios' && _visible;
     const { buttonStylesBorderless, hangupButtonStyles } = _styles;
     const style = { ...styles.toolbox };
