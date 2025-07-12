@@ -252,10 +252,7 @@ afterEvaluate {
                 groupId = 'com.github.arazil16695'
                 artifactId = 'jitsi-meet'
                 version = 'v1.0.0'
-
-                afterEvaluate {
-                    from components.release
-                }
+                from components.release
             }
         }
     }
