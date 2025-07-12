@@ -245,3 +245,18 @@ publishing {
         }
     }
 }
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.github.arazil16695'
+                artifactId = 'jitsi-meet'
+                version = 'v1.0.0'
+
+                afterEvaluate {
+                    from components.release
+                }
+            }
+        }
+    }
+}
