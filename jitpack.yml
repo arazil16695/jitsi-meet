@@ -2,4 +2,4 @@ jdk:
   - openjdk8
 
 android:
-  module: android
+  module: android/sdk
