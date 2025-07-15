@@ -251,7 +251,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.arazil16695'
             artifactId = 'jitsi-meet'
-            version = 'v1.0.25'
+            version = 'v1.0.26'
             from components.release
         }
     }
