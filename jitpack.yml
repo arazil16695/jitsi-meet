@@ -3,3 +3,5 @@ jdk:
 
 android:
   module: android/sdk
+install:
+  - ./gradlew clean assembleRelease
