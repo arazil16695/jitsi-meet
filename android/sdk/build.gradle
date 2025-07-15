@@ -252,7 +252,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = 'com.github.arazil16695'
                 artifactId = 'jitsi-meet'
-                version = 'v1.0.20'
+                version = project.version
                 from components.release
             }
         }
