@@ -52,8 +52,8 @@ dependencies {
     implementation 'androidx.startup:startup-runtime:1.1.0'
 
     // Only add these packages if we are NOT doing a LIBRE_BUILD
-    def libreBuild = project.hasProperty("libreBuild") ? project.libreBuild.toBoolean() : false
-    if (!libreBuild) {
+   if (!rootProject.ext.libreBuild) {
+    implementation project(':react-native-amplitude')
         implementation project(':react-native-amplitude')
         implementation project(':react-native-giphy')
         implementation(project(':react-native-google-signin')) {
@@ -252,7 +252,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = 'com.github.arazil16695'
                 artifactId = 'jitsi-meet'
-                version = 'v1.0.18'
+                version = 'v1.0.19'
                 from components.release
             }
         }

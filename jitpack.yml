@@ -2,4 +2,7 @@ jdk:
   - openjdk11
 
 android:
-  module: android/sdk
+  module: android
+
+install:
+  - ./gradlew -PlibreBuild=true -Pgroup=com.github.arazil16695 -Pversion=v1.0.19 publish
