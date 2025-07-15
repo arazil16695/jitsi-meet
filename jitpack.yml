@@ -5,4 +5,4 @@ android:
   module: android/sdk
 
 install:
-  - ./gradlew -PlibreBuild=true -Pgroup=com.github.arazil16695 -Pversion=v1.0.27 publishToMavenLocal
+  - ./gradlew -PlibreBuild=true -Pgroup=com.github.arazil16695 -Pversion=v1.0.28 publishToMavenLocal

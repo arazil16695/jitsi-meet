@@ -247,13 +247,16 @@ publishing {
         }
     }
 }
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = 'com.github.arazil16695'
-            artifactId = 'jitsi-meet'
-            version = 'v1.0.27'
-            from components.release
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.github.arazil16695'
+                artifactId = 'jitsi-meet'
+                version = 'v1.0.28'
+
+                from components.release
+            }
         }
     }
 }
