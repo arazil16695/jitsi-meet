@@ -2,6 +2,4 @@ jdk:
   - openjdk8
 
 android:
-  module: android/sdk
-install:
-  - ./gradlew clean assembleRelease
+  module: android
