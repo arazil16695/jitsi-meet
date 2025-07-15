@@ -3,3 +3,11 @@ jdk:
 
 android:
   module: android
+
+install:
+  - cd android
+  - ./gradlew clean build
+
+build:
+  - cd android
+  - ./gradlew assembleRelease
