@@ -5,4 +5,4 @@ android:
   module: android
 
 install:
-  - ./gradlew -PlibreBuild=true -Pgroup=com.github.arazil16695 -Pversion=v1.0.19 publish
+  - ./gradlew -PlibreBuild=true -Pgroup=com.github.arazil16695 -Pversion=v1.0.21 publish

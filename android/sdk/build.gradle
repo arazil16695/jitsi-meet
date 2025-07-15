@@ -53,8 +53,8 @@ dependencies {
 
     // Only add these packages if we are NOT doing a LIBRE_BUILD
    if (!rootProject.ext.libreBuild) {
-    implementation project(':react-native-amplitude')
-        implementation project(':react-native-amplitude')
+//    implementation project(':react-native-amplitude')
+  //      implementation project(':react-native-amplitude')
         implementation project(':react-native-giphy')
         implementation(project(':react-native-google-signin')) {
             exclude group: 'com.google.android.gms'
