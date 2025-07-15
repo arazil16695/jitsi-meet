@@ -1,8 +1,8 @@
 jdk:
-  - openjdk11
+  - openjdk8
 
 android:
-  module: android
+  module: android/sdk
 
 install:
-  - ./gradlew -PlibreBuild=true -Pgroup=com.github.arazil16695 -Pversion=v1.0.23 publish
+  - ./gradlew -PlibreBuild=true -Pgroup=com.github.arazil16695 -Pversion=v1.0.24 publishReleasePublicationToMavenLocal
