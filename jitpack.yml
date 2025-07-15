@@ -1,13 +1,5 @@
 jdk:
-  - openjdk8
+  - openjdk11
 
 android:
-  module: android
-
-install:
-  - cd android
-  - ./gradlew clean build
-
-build:
-  - cd android
-  - ./gradlew assembleRelease
+  module: android/sdk
