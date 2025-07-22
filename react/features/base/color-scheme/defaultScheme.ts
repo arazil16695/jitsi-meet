@@ -15,9 +15,9 @@ export default {
     },
     'Dialog': {},
     'Header': {
-        background: ColorPalette.blue,
+        background: '#e7eeedff',//ColorPalette.blue,
         icon: ColorPalette.white,
-        statusBar: ColorPalette.blueHighlight,
+        statusBar: '#d7f1eeff',//ColorPalette.blueHighlight,
         statusBarContent: ColorPalette.white,
         text: ColorPalette.white
     },
@@ -25,6 +25,6 @@ export default {
         button: 'rgb(255, 255, 255)',
         buttonToggled: 'rgb(38, 58, 76)',
         buttonToggledBorder: getRGBAFormat('#a4b8d1', 0.6),
-        hangup: 'rgba(250, 242, 2, 1)'
+        hangup: 'rgba(222, 249, 22, 1)'
     }
 };
