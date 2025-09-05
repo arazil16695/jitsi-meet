@@ -19,7 +19,7 @@ const ConnectingPage = () => {
                         color = { TEXT_COLOR }
                         size = 'large' />
                     <Text style = { navigationStyles.connectingScreenText }>
-                        { t('connectingOverlay.joiningRoom') }
+                        { t('') }
                     </Text>
                 </SafeAreaView>
             </View>

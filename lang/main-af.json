@@ -56,7 +56,7 @@
         "titleWithPolls": ""
     },
     "connectingOverlay": {
-        "joiningRoom": ""
+        "joiningRoom": "   "
     },
     "connection": {
         "ATTACHED": "",

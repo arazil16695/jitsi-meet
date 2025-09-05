@@ -158,7 +158,7 @@
         "startClosedCaptionsButton": "Start closed captions"
     },
     "connectingOverlay": {
-        "joiningRoom": "Connecting you to your meeting…"
+        "joiningRoom": "  "
     },
     "connection": {
         "ATTACHED": "Attached",

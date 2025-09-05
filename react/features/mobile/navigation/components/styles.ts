@@ -2,7 +2,8 @@ import { BoxModel } from '../../../base/styles/components/styles/BoxModel';
 import BaseTheme from '../../../base/ui/components/BaseTheme.native';
 
 
-export const TEXT_COLOR = BaseTheme.palette.text01;
+export const TEXT_COLOR = "#000000"
+//BaseTheme.palette.text01;
 
 const unreadCounterDescription = {
     ...BaseTheme.typography.bodyShortBoldLarge,
