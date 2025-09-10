@@ -17,23 +17,21 @@ import styles from './styles';
 interface IProps {
     _iAmVisitor: boolean;
     _styles: any;
-    _visible: boolean;
+    toolboxVisible: boolean;  // Accept toolboxVisible as a prop from the parent (Conference.tsx)
     dispatch: IStore['dispatch'];
 }
  
 function Toolbox(props: IProps) {
-    const { _iAmVisitor, _styles, _visible, dispatch } = props;
+    const { _iAmVisitor, _styles, toolboxVisible, dispatch } = props;
  
-    if (!_visible) {
+    // Early return if toolbox is not visible
+    if (!toolboxVisible) {
         return null;
     }
  
     const { clientWidth } = useSelector((state: IReduxState) => state['features/base/responsive-ui']);
     const { customToolbarButtons } = useSelector((state: IReduxState) => state['features/base/config']);
-    const {
-        mainToolbarButtonsThresholds,
-        toolbarButtons
-    } = useSelector((state: IReduxState) => state['features/toolbox']);
+    const { mainToolbarButtonsThresholds, toolbarButtons } = useSelector((state: IReduxState) => state['features/toolbox']);
  
     const allButtons = useNativeToolboxButtons(customToolbarButtons);
  
@@ -45,63 +43,62 @@ function Toolbox(props: IProps) {
         toolbarButtons
     });
  
-    const bottomEdge = Platform.OS === 'ios' && _visible;
+    const bottomEdge = Platform.OS === 'ios' && toolboxVisible;
     const { buttonStylesBorderless, hangupButtonStyles } = _styles;
  
-const style = {
-  ...styles.toolbox,
-  backgroundColor: '#075e54aa',
-  flexDirection: 'row',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  height: 80,               // Increased from 70 to 80
-  padding: 20,  // Ensures buttons are within the bar    // Adds spacing from bottom of screen
-  marginTop: 20,
-  marginBottom: 20,
-  marginLeft: 15,
-  marginRight:15,
-  borderTopLeftRadius: 12,
-  borderTopRightRadius: 12,
-  borderBottomLeftRadius: 12,
-  borderBottomRightRadius: 12
-} as ViewStyle;
+    const style = {
+        ...styles.toolbox,
+        backgroundColor: '#075e54aa',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        height: 80,
+        padding: 20,
+        marginTop: 20,
+        marginBottom: 20,
+        marginLeft: 15,
+        marginRight: 15,
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12
+    } as ViewStyle;
  
-const renderToolboxButtons = () => {
-    if (!mainMenuButtons?.length) {
-        return null;
-    }
+    const renderToolboxButtons = () => {
+        if (!mainMenuButtons?.length) {
+            return null;
+        }
  
-    const filteredButtons = mainMenuButtons.filter(({ key }: IToolboxNativeButton) =>
-        key !== 'chat' && key !== 'overflowmenu' && key !== 'invite'
-    );
+        const filteredButtons = mainMenuButtons.filter(({ key }: IToolboxNativeButton) =>
+            key !== 'chat' && key !== 'overflowmenu' && key !== 'invite'
+        );
  
-    return (
-        <>
-            {filteredButtons.map(({ Content, key, text, ...rest }: IToolboxNativeButton) => (
-                <View
-  key={key}
-  style={{
-    backgroundColor: key === 'hangup' ? '#00000000' : '#00000000',
-    height: key === 'hangup' ? 50 : 40,
-    width: key === 'hangup' ? 50 : 40,
-    padding: key === 'hangup' ? 4 : 7,           // Reduced from 12
-    borderRadius: 24,     // Slightly less rounded
-    marginHorizontal: 0,
-    alignItems: 'center',
-    gravity: 'center',
-    justifyContent: 'center',
-  }}>
-  <Content
-    {...rest}
-    handleClick={() => dispatch(customButtonPressed(key, text))}
-    isToolboxButton={true}
-    styles={key === 'hangup' ? hangupButtonStyles : buttonStylesBorderless}
-  />
-</View>
-            ))}
-        </>
-    );
-};
+        return (
+            <>
+                {filteredButtons.map(({ Content, key, text, ...rest }: IToolboxNativeButton) => (
+                    <View
+                        key={key}
+                        style={{
+                            backgroundColor: key === 'hangup' ? '#00000000' : '#00000000',
+                            height: key === 'hangup' ? 50 : 40,
+                            width: key === 'hangup' ? 50 : 40,
+                            padding: key === 'hangup' ? 4 : 7,
+                            borderRadius: 24,
+                            marginHorizontal: 0,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                        <Content
+                            {...rest}
+                            handleClick={() => dispatch(customButtonPressed(key, text))}
+                            isToolboxButton={true}
+                            styles={key === 'hangup' ? hangupButtonStyles : buttonStylesBorderless}
+                        />
+                    </View>
+                ))}
+            </>
+        );
+    };
  
     return (
         <View style={styles.toolboxContainer as ViewStyle}>
@@ -120,8 +117,8 @@ function _mapStateToProps(state: IReduxState) {
     return {
         _iAmVisitor: iAmVisitor(state),
         _styles: ColorSchemeRegistry.get(state, 'Toolbox'),
-        _visible: isToolboxVisible(state),
     };
 }
  
 export default connect(_mapStateToProps)(Toolbox);
+ 
