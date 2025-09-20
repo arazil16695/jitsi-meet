@@ -148,11 +148,11 @@ export function useNativeToolboxButtons(
     const buttons: { [key in NativeToolbarButton]?: IToolboxNativeButton; } = {
         microphone: audioMuteButton,
         camera: videoMuteButton,
-        chat: chatButton,
-        desktop: screenSharingButton,
-        raisehand,
-        tileview: tileViewButton,
-        overflowmenu: overflowMenuButton,
+//        chat: chatButton,
+//        desktop: screenSharingButton,
+//        raisehand,
+//        tileview: tileViewButton,
+//        overflowmenu: overflowMenuButton,
         hangup
     };
     const buttonKeys = Object.keys(buttons) as NativeToolbarButton[];

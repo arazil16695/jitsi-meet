@@ -1,60 +1,43 @@
 import BaseTheme from '../../../base/ui/components/BaseTheme.native';
-
+ 
 export const INSECURE_ROOM_NAME_LABEL_COLOR = BaseTheme.palette.actionDanger;
-
+ 
 const TITLE_BAR_BUTTON_SIZE = 24;
-
-
-/**
- * The styles of the safe area view that contains the title bar.
- */
+ 
 const titleBarSafeView = {
     left: 0,
     position: 'absolute',
     right: 0,
     top: 0
 };
-
+ 
 const alwaysOnTitleBar = {
-    alignItems: 'center',
+    alignItems: 'center',  // Correct type for alignItems
     alignSelf: 'flex-end',
     backgroundColor: 'rgba(0, 0, 0, .5)',
     borderRadius: BaseTheme.shape.borderRadius,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: 'row',  // Correct type for flexDirection
+    justifyContent: 'center',  // Correct type for justifyContent
     marginTop: BaseTheme.spacing[3],
     paddingRight: BaseTheme.spacing[0],
     '&:not(:empty)': {
         padding: BaseTheme.spacing[1]
     }
 };
-
-/**
- * The styles of the feature conference.
- */
+ 
 export default {
-
-    /**
-     * {@code Conference} Style.
-     */
     conference: {
         alignSelf: 'stretch',
         backgroundColor: BaseTheme.palette.uiBackground,
         flex: 1
     },
-
     displayNameContainer: {
         margin: BaseTheme.spacing[3]
     },
-
-    /**
-     * View that contains the indicators.
-     */
     indicatorContainer: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row'  // Correct type for flexDirection
     },
-
     titleBarButtonContainer: {
         borderRadius: 3,
         height: BaseTheme.spacing[7],
@@ -63,7 +46,6 @@ export default {
         zIndex: 1,
         width: BaseTheme.spacing[7]
     },
-
     titleBarButton: {
         iconStyle: {
             color: BaseTheme.palette.icon01,
@@ -72,29 +54,23 @@ export default {
         },
         underlayColor: 'transparent'
     },
-
     lonelyMeetingContainer: {
         alignSelf: 'stretch',
-        alignItems: 'center',
+        alignItems: 'center',  // Correct type for alignItems
         padding: BaseTheme.spacing[3]
     },
-
     lonelyMessage: {
         color: BaseTheme.palette.text01,
         paddingVertical: BaseTheme.spacing[2]
     },
-
     pipButtonContainer: {
-        '&:not(:empty)': {
-            borderRadius: 3,
-            height: BaseTheme.spacing[7],
-            marginTop: BaseTheme.spacing[1],
-            marginLeft: BaseTheme.spacing[1],
-            zIndex: 1,
-            width: BaseTheme.spacing[7]
-        }
+        borderRadius: 3,
+        height: BaseTheme.spacing[7],
+        marginTop: BaseTheme.spacing[1],
+        marginLeft: BaseTheme.spacing[1],  // Placed on the left
+        zIndex: 1,
+        width: BaseTheme.spacing[7]
     },
-
     pipButton: {
         iconStyle: {
             color: BaseTheme.palette.icon01,
@@ -103,45 +79,38 @@ export default {
         },
         underlayColor: 'transparent'
     },
-
     titleBarSafeViewColor: {
         ...titleBarSafeView,
-        backgroundColor: BaseTheme.palette.uiBackground
+        backgroundColor: '#00000000'
     },
-
     titleBarSafeViewTransparent: {
         ...titleBarSafeView
     },
-
     titleBarWrapper: {
-        alignItems: 'center',
+        alignItems: 'center',  // Correct type for alignItems
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'row',  // Correct type for flexDirection
         height: BaseTheme.spacing[8],
-        justifyContent: 'center'
+        justifyContent: 'space-between',  // Correct type for justifyContent
+        paddingHorizontal: BaseTheme.spacing[2]
     },
-
     alwaysOnTitleBar: {
         ...alwaysOnTitleBar,
         marginRight: BaseTheme.spacing[2]
     },
-
     alwaysOnTitleBarWide: {
         ...alwaysOnTitleBar,
         marginRight: BaseTheme.spacing[12]
     },
-
     expandedLabelWrapper: {
         zIndex: 1
     },
-
     roomTimer: {
         ...BaseTheme.typography.bodyShortBold,
         color: BaseTheme.palette.text01,
         lineHeight: 14,
         textAlign: 'center'
     },
-
     roomTimerView: {
         backgroundColor: BaseTheme.palette.ui03,
         borderRadius: BaseTheme.shape.borderRadius,
@@ -151,13 +120,11 @@ export default {
         paddingVertical: BaseTheme.spacing[1],
         minWidth: 50
     },
-
     roomName: {
         color: BaseTheme.palette.text01,
         ...BaseTheme.typography.bodyShortBold,
         paddingVertical: 6
     },
-
     roomNameView: {
         backgroundColor: 'rgba(0,0,0,0.6)',
         borderBottomLeftRadius: 3,
@@ -166,47 +133,46 @@ export default {
         justifyContent: 'center',
         paddingHorizontal: 10
     },
-
     roomNameWrapper: {
-        flexDirection: 'row',
+        flexDirection: 'row',  // Correct type for flexDirection
         marginRight: 10,
         marginLeft: 8,
         flexShrink: 1,
         flexGrow: 1
     },
-
-    /**
-     * The style of the {@link View} which expands over the whole
-     * {@link Conference} area and splits it between the {@link Filmstrip} and
-     * the {@link Toolbox}.
-     */
     toolboxAndFilmstripContainer: {
         bottom: 0,
-        flexDirection: 'column',
+        flexDirection: 'column',  // Correct type for flexDirection
         justifyContent: 'flex-end',
         left: 0,
         position: 'absolute',
         right: 0,
         top: 0
     },
-
     insecureRoomNameLabel: {
         backgroundColor: INSECURE_ROOM_NAME_LABEL_COLOR,
         borderRadius: BaseTheme.shape.borderRadius,
         height: 32
     },
-
     raisedHandsCountLabel: {
-        alignItems: 'center',
+        alignItems: 'center',  // Correct type for alignItems
         backgroundColor: BaseTheme.palette.warning02,
         borderRadius: BaseTheme.shape.borderRadius,
-        flexDirection: 'row',
+        flexDirection: 'row',  // Correct type for flexDirection
         marginBottom: BaseTheme.spacing[0],
         marginLeft: BaseTheme.spacing[0]
     },
-
     raisedHandsCountLabelText: {
         color: BaseTheme.palette.uiBackground,
         paddingLeft: BaseTheme.spacing[2]
+    },
+ 
+    // New container for right-aligned buttons
+    rightButtonsContainer: {
+        flexDirection: 'row',  // Correct type for flexDirection
+        justifyContent: 'flex-end',  // Correct type for justifyContent
+        alignItems: 'center',        // Correct type for alignItems
     }
 };
+ 
+ 

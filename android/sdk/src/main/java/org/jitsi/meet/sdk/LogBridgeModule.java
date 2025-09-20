@@ -16,13 +16,18 @@
 
 package org.jitsi.meet.sdk;
 
+import android.content.Intent;
+import android.util.Log;
+ 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+ 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
-
+ 
 import org.jitsi.meet.sdk.log.JitsiMeetLogger;
-
+ 
 import javax.annotation.Nonnull;
 
 /**
@@ -43,31 +48,40 @@ class LogBridgeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void trace(final String message) {
-        JitsiMeetLogger.v(message);
+        JitsiMeetLogger.v("hello6"+message);
     }
 
     @ReactMethod
     public void debug(final String message) {
-        JitsiMeetLogger.d(message);
+        JitsiMeetLogger.d("hello5"+message);
     }
 
     @ReactMethod
     public void info(final String message) {
-        JitsiMeetLogger.i(message);
+        JitsiMeetLogger.i("hello4"+message);
     }
 
     @ReactMethod
     public void log(final String message) {
-        JitsiMeetLogger.i(message);
+        JitsiMeetLogger.i("hello3"+message);
     }
 
     @ReactMethod
     public void warn(final String message) {
-        JitsiMeetLogger.w(message);
+        JitsiMeetLogger.w("hello 2"+message);
     }
 
     @ReactMethod
     public void error(final String message) {
-        JitsiMeetLogger.e(message);
+        JitsiMeetLogger.e("hello"+message);
+    }
+    @ReactMethod
+    public void jitsiEvent(final String message) {
+        Log.w("ReactNativeJS app.voipbusiness.com", message); // Native Logcat
+        // Optionally use JitsiMeetLogger if you want to log within JitsiMeet logs
+        Intent intent = new Intent("org.jitsi.meet.Add_Memeber");
+        intent.putExtra("message",message);
+        LocalBroadcastManager.getInstance(getReactApplicationContext()).sendBroadcast(intent);
+        JitsiMeetLogger.w("ReactNativeJS app.voipbusiness.com", message);
     }
 }

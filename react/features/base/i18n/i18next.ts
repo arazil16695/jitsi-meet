@@ -1,6 +1,5 @@
 import COUNTRIES_RESOURCES from 'i18n-iso-countries/langs/en.json';
-import i18next from 'i18next';
-import I18nextXHRBackend, { HttpBackendOptions } from 'i18next-http-backend';
+import i18next, { InitOptions } from 'i18next';
 import { merge } from 'lodash-es';
 
 import LANGUAGES_RESOURCES from '../../../../lang/languages.json';
@@ -64,7 +63,7 @@ export const TRANSLATION_LANGUAGES_HEAD: Array<string> = [ DEFAULT_LANGUAGE ];
  * @type {i18next.InitOptions}
  */
 const options: i18next.InitOptions = {
-    backend: <HttpBackendOptions>{
+    backend: {
         loadPath: (lng: string[], ns: string[]) => {
             switch (ns[0]) {
             case 'countries':
@@ -83,65 +82,42 @@ const options: i18next.InitOptions = {
     load: 'languageOnly',
     ns: [ 'main', 'languages', 'countries', 'translation-languages' ],
     react: {
-        // re-render when a new resource bundle is added
-        // @ts-expect-error. Fixed in i18next 19.6.1.
         bindI18nStore: 'added',
         useSuspense: false
     },
     returnEmptyString: false,
     returnNull: false,
-
-    // XXX i18next modifies the array lngWhitelist so make sure to clone
-    // LANGUAGES.
     whitelist: LANGUAGES.slice()
 };
 
+// Check if React Native is being used
+if (navigator.product !== 'ReactNative') {
+    // Only use HTTP backend on web
+    const I18nextXHRBackend = require('i18next-http-backend').default;
+    i18next.use(I18nextXHRBackend);
+}
+
+// Initialize i18next
 i18next
-    .use(navigator.product === 'ReactNative' ? {} : I18nextXHRBackend)
     .use(languageDetector)
     .init(options);
 
 // Add default language which is preloaded from the source code.
-i18next.addResourceBundle(
-    DEFAULT_LANGUAGE,
-    'countries',
-    COUNTRIES,
-    /* deep */ true,
-    /* overwrite */ true);
-i18next.addResourceBundle(
-    DEFAULT_LANGUAGE,
-    'languages',
-    LANGUAGES_RESOURCES,
-    /* deep */ true,
-    /* overwrite */ true);
-i18next.addResourceBundle(
-    DEFAULT_LANGUAGE,
-    'translation-languages',
-    TRANSLATION_LANGUAGES_RESOURCES,
-    /* deep */ true,
-    /* overwrite */ true);
-i18next.addResourceBundle(
-    DEFAULT_LANGUAGE,
-    'main',
-    MAIN_RESOURCES,
-    /* deep */ true,
-    /* overwrite */ true);
+i18next.addResourceBundle(DEFAULT_LANGUAGE, 'countries', COUNTRIES, true, true);
+i18next.addResourceBundle(DEFAULT_LANGUAGE, 'languages', LANGUAGES_RESOURCES, true, true);
+i18next.addResourceBundle(DEFAULT_LANGUAGE, 'translation-languages', TRANSLATION_LANGUAGES_RESOURCES, true, true);
+i18next.addResourceBundle(DEFAULT_LANGUAGE, 'main', MAIN_RESOURCES, true, true);
 
-// Add builtin languages.
-// XXX: Note we are using require here, because we want the side-effects of the
-// import, but imports can only be placed at the top, and it would be too early,
-// since i18next is not yet initialized at that point.
-require('./BuiltinLanguages');
+// Event listeners - Remove APP references, use your store or context here
+i18next.on('initialized', () => {
+    // Perform actions here, such as dispatching to your store if needed
+    // If you're using Redux or another store, dispatch the actions there
+    console.log('i18next initialized');
+});
 
-// Label change through dynamic branding is available only for web
-if (typeof APP !== 'undefined') {
-    i18next.on('initialized', () => {
-        APP.store.dispatch({ type: I18NEXT_INITIALIZED });
-    });
-
-    i18next.on('languageChanged', () => {
-        APP.store.dispatch({ type: LANGUAGE_CHANGED });
-    });
-}
+i18next.on('languageChanged', () => {
+    // Handle language change logic here
+    console.log('Language changed');
+});
 
 export default i18next;

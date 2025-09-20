@@ -35,6 +35,7 @@ interface IEventListeners {
     onParticipantJoined?: Function;
     onParticipantLeft?: ({ id }: { id: string }) => void;
     onReadyToClose?: Function;
+    onRequestAddParticipant?:Function;
 }
 
 interface IUserInfo {
@@ -144,7 +145,8 @@ export const JitsiMeeting = forwardRef<JitsiRefProps, IAppProps>((props, ref) =>
                     onEndpointMessageReceived: eventListeners?.onEndpointMessageReceived,
                     onParticipantJoined: eventListeners?.onParticipantJoined,
                     onParticipantLeft: eventListeners?.onParticipantLeft,
-                    onReadyToClose: eventListeners?.onReadyToClose
+                    onReadyToClose: eventListeners?.onReadyToClose,
+                    onRequestAddParticipant: eventListeners?.onRequestAddParticipant
                 },
                 'url': urlProps,
                 'userInfo': userInfo

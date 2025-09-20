@@ -15,7 +15,7 @@
  */
 package org.jitsi.meet;
 
-
+import org.jitsi.meet.sdk.LogBridgeModule;
 
 public class Application extends android.app.Application {
 
@@ -26,4 +26,12 @@ public class Application extends android.app.Application {
       super.onCreate();
       
   }
+  @Override
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+        new MainReactPackage(),
+        new LogBridgeModule()  // Register your custom LogBridge module here
+    );
+}
+ 
 }
