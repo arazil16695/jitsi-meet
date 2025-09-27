@@ -18,6 +18,7 @@
 
 @optional
 
+- (void)jitsiEventReceived:(NSDictionary *)data;
 /**
  * Called when a conference was joined.
  *

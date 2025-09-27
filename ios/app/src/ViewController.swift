@@ -18,14 +18,15 @@ import CoreSpotlight
 import Intents
 import MobileCoreServices
 import UIKit
-
 import JitsiMeetSDK
 
 @objcMembers
 class ViewController: UIViewController {
-    
+     var jitsiMeetView: JitsiMeetView!
     override func loadView() {
         let jitsiView = JitsiMeetView(frame: UIScreen.main.bounds)
+        jitsiView.delegate = self
+        print("✅ Delegate set in loadView: \(type(of: self))")
         self.view = jitsiView
     }
     
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
         
         guard let view = self.view as? JitsiMeetView else { return }
         view.delegate = self
+        print("✅ Delegate confirmed in viewDidLoad: \(type(of: self))")
         view.join(JitsiMeet.sharedInstance().getInitialConferenceOptions())
     }
     
@@ -49,6 +51,16 @@ class ViewController: UIViewController {
 extension ViewController: @preconcurrency JitsiMeetViewDelegate {
 
     // MARK: - Private Helper Methods
+
+    @objc // make selector visible to Obj-C runtime
+    @MainActor
+    func jitsiEventReceived(_ data: NSDictionary) {
+        print("jitsiEventReceived was called.")
+        
+        if let message = data["message"] as? String {
+            print("Received message: \(message)")
+        }
+    }
     
     private func onJitsiMeetViewDelegateEvent(_ name: String, withData data: [AnyHashable: Any]?) {
         NSLog("[%@:%d] JitsiMeetViewDelegate %@ %@", #file, #line, name, data ?? [:])

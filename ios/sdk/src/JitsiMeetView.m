@@ -209,6 +209,7 @@ static NSString *recordingModeToString(RecordingMode mode);
 - (void)registerObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUpdateViewPropsNotification:) name:updateViewPropsNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSendEventNotification:) name:sendEventNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleJitsiEventNotification:) name:@"jitsiEventNotification" object:nil];
  }
 
 - (void)handleUpdateViewPropsNotification:(NSNotification *)notification {
@@ -225,6 +226,33 @@ static NSString *recordingModeToString(RecordingMode mode);
         [self.delegate performSelector:sel withObject:eventData];
     }
 }
+
+- (void)handleJitsiEventNotification:(NSNotification *)notification {
+    NSDictionary *data = notification.userInfo;
+    NSLog(@"[DEBUG] handleJitsiEventNotification called with data: %@", data);
+
+    id delegate = self.delegate;
+
+    if (delegate && [delegate respondsToSelector:@selector(jitsiEventReceived:)]) {
+        NSLog(@"[DEBUG] Delegate responds to jitsiEventReceived");
+        // Log delegate class & pointer to help debugging
+        NSLog(@"[DEBUG] Delegate class: %@; pointer: %p", NSStringFromClass([delegate class]), delegate);
+
+        // Ensure the call happens on main thread (and main actor)
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Extra safety: check again on the main thread
+            if (delegate && [delegate respondsToSelector:@selector(jitsiEventReceived:)]) {
+                [(id)delegate jitsiEventReceived:data];
+            } else {
+                NSLog(@"[DEBUG] Delegate not present or doesn't respond on main thread");
+            }
+        });
+    } else {
+        NSLog(@"[DEBUG] Delegate does NOT respond to jitsiEventReceived");
+    }
+}
+
+
 
 /**
   * Converts a specific event name i.e. redux action type description to a
