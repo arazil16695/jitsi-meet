@@ -141,13 +141,13 @@ export default {
         flexGrow: 1
     },
     toolboxAndFilmstripContainer: {
-        bottom: 0,
-        flexDirection: 'column',  // Correct type for flexDirection
-        justifyContent: 'flex-end',
-        left: 0,
         position: 'absolute',
+        left: 0,
         right: 0,
-        top: 0
+        bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        height: 220, 
     },
     insecureRoomNameLabel: {
         backgroundColor: INSECURE_ROOM_NAME_LABEL_COLOR,

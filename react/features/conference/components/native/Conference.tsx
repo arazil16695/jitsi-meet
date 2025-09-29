@@ -241,84 +241,87 @@ class Conference extends AbstractConference<IProps, State> {
         }
  
         return (
-            <>
-                {
-                    _shouldDisplayTileView
-                        ? <TileView onClick={this._onClick} />
-                        : <LargeVideo onClick={this._onClick} />
-                }
- 
-                <CalleeInfoContainer />
- 
-                { _connecting &&
-                    <TintedView>
-                        <LoadingIndicator />
-                    </TintedView>
-                }
- 
-                <View
-                    pointerEvents='box-none'
-                    style={styles.toolboxAndFilmstripContainer as ViewStyle}>
- 
-                    <Captions onPress={this._onClick} />
- 
-                    {
-                        _shouldDisplayTileView
-                        || (_isDisplayNameVisible && (
-                            <Container style={styles.displayNameContainer}>
-                                <DisplayNameLabel participantId={_largeVideoParticipantId} />
-                            </Container>
-                        ))
-                    }
- 
-                    { !_shouldDisplayTileView && <LonelyMeetingExperience /> }
- 
-                    {
-                        _shouldDisplayTileView
-                        || <>
-                            <Filmstrip />
-                            { this._renderNotificationsContainer() }
-                            { _toolboxVisible && <Toolbox /> }
-                        </>
-                    }
+    <>
+        {
+            _shouldDisplayTileView
+                ? <TileView onClick={this._onClick} />
+                : <LargeVideo onClick={this._onClick} />
+        }
+
+        <CalleeInfoContainer />
+
+        { _connecting &&
+            <TintedView>
+                <LoadingIndicator />
+            </TintedView>
+        }
+
+        {/* Toolbox + Filmstrip container pinned at bottom */}
+        <View
+            pointerEvents="box-none"
+            style={styles.toolboxAndFilmstripContainer as ViewStyle}>
+
+            <Captions onPress={this._onClick} />
+
+            {/* {
+                _shouldDisplayTileView
+                || (_isDisplayNameVisible && (
+                    <Container style={styles.displayNameContainer}>
+                        <DisplayNameLabel participantId={_largeVideoParticipantId} />
+                    </Container>
+                ))
+            }  */}
+
+            { !_shouldDisplayTileView && <LonelyMeetingExperience /> }
+
+            {
+                _shouldDisplayTileView
+                || <>
+                <View style={{ marginBottom: 100 }}>
+                    <Filmstrip />
                 </View>
- 
-                <SafeAreaView
-                    pointerEvents='box-none'
-                    style={
-                        (_toolboxVisible
-                            ? styles.titleBarSafeViewColor
-                            : styles.titleBarSafeViewTransparent) as ViewStyle
-                    }>
-                    <TitleBar _createOnPress={this._createOnPress} />
-                </SafeAreaView>
- 
-                <SafeAreaView
-                    pointerEvents='box-none'
-                    style={
-                        (_toolboxVisible
-                            ? [styles.titleBarSafeViewTransparent, { top: this.props.insets.top + 50 }]
-                            : styles.titleBarSafeViewTransparent) as ViewStyle
-                    }>
-                    <View pointerEvents='box-none' style={styles.expandedLabelWrapper}>
-                        <ExpandedLabelPopup visibleExpandedLabel={this.state.visibleExpandedLabel} />
-                    </View>
-                    <View pointerEvents='box-none' style={alwaysOnTitleBarStyles as ViewStyle}>
-                        <AlwaysOnLabels createOnPress={this._createOnPress} />
-                    </View>
-                </SafeAreaView>
- 
-                <TestConnectionInfo />
- 
-                {
-                    _shouldDisplayTileView
-                    && <>
-                        { this._renderNotificationsContainer() }
-                        { _toolboxVisible && <Toolbox /> }
-                    </>
-                }
+                    { this._renderNotificationsContainer() }
+                    { _toolboxVisible && <Toolbox /> }
+                </>
+            }
+        </View>
+
+        <SafeAreaView
+            pointerEvents="box-none"
+            style={
+                (_toolboxVisible
+                    ? styles.titleBarSafeViewColor
+                    : styles.titleBarSafeViewTransparent) as ViewStyle
+            }>
+            <TitleBar _createOnPress={this._createOnPress} />
+        </SafeAreaView>
+
+        <SafeAreaView
+            pointerEvents="box-none"
+            style={
+                (_toolboxVisible
+                    ? [styles.titleBarSafeViewTransparent, { top: this.props.insets.top + 50 }]
+                    : styles.titleBarSafeViewTransparent) as ViewStyle
+            }>
+            <View pointerEvents="box-none" style={styles.expandedLabelWrapper}>
+                <ExpandedLabelPopup visibleExpandedLabel={this.state.visibleExpandedLabel} />
+            </View>
+            <View pointerEvents="box-none" style={alwaysOnTitleBarStyles as ViewStyle}>
+                <AlwaysOnLabels createOnPress={this._createOnPress} />
+            </View>
+        </SafeAreaView>
+
+        <TestConnectionInfo />
+
+        {
+            _shouldDisplayTileView
+            && <>
+                { this._renderNotificationsContainer() }
+                { _toolboxVisible && <Toolbox /> }
             </>
-        );
+        }
+    </>
+);
     }
  
     _renderContentForReducedUi() {

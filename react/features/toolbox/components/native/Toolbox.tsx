@@ -55,6 +55,8 @@ function Toolbox(props: IProps) {
       alignItems: 'center',
       height: 60, 
       padding: 10, 
+      marginLeft: 10,
+      marginRight: 10,
       borderTopLeftRadius: 12,
       borderTopRightRadius: 12,
       borderBottomLeftRadius: 12,
