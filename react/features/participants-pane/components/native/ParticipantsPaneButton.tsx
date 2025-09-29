@@ -6,9 +6,6 @@ import { IconUsers } from '../../../base/icons/svg';
 import { getParticipantCountForDisplay } from '../../../base/participants/functions';
 import AbstractButton, { IProps as AbstractButtonProps } from '../../../base/toolbox/components/AbstractButton';
 import { withTranslation } from 'react-i18next';
-import { navigate }
-    from '../../../mobile/navigation/components/conference/ConferenceNavigationContainerRef';
-import { screen } from '../../../mobile/navigation/routes';
  
 const { LogBridge } = NativeModules;
  
@@ -33,8 +30,7 @@ class ParticipantsPaneButton extends AbstractButton<IProps> {
       // Emit the custom event `onRequestAddParticipant`
     // Check if LogBridge and logWarning exist
       // Call the logWarning method from the native module
-      return navigate(screen.conference.participants);
-      //      LogBridge.jitsiEvent('ReactNativeJS Open AddMember');
+      LogBridge.jitsiEvent('ReactNativeJS Open AddMember');
   }
  
   _getAccessibilityLabel() {
