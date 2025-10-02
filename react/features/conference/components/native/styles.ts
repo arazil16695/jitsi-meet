@@ -92,7 +92,8 @@ export default {
         flexDirection: 'row',  // Correct type for flexDirection
         height: BaseTheme.spacing[8],
         justifyContent: 'space-between',  // Correct type for justifyContent
-        paddingHorizontal: BaseTheme.spacing[2]
+        paddingHorizontal: BaseTheme.spacing[2],
+        backgroundColor: "#0000003e"
     },
     alwaysOnTitleBar: {
         ...alwaysOnTitleBar,

@@ -110,7 +110,7 @@ if (_participantCount <= 1) {
   columns = 3; rows = 3;
 } else if (_participantCount <= 12) {
   columns = 3; rows = 4;
-} else if (_participantCount <= 15) {
+} else if (_participantCount <= 15) { 
   columns = 3; rows = 5;
 } else if (_participantCount <= 16) {
   columns = 4; rows = 4;

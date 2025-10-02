@@ -149,7 +149,7 @@ export function useNativeToolboxButtons(
         microphone: audioMuteButton,
         camera: videoMuteButton,
 //        chat: chatButton,
-//        desktop: screenSharingButton,
+        desktop: screenSharingButton,
 //        raisehand,
 //        tileview: tileViewButton,
 //        overflowmenu: overflowMenuButton,
