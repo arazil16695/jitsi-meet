@@ -39,11 +39,12 @@ export default {
         flexDirection: 'row'  // Correct type for flexDirection
     },
     titleBarButtonContainer: {
-        borderRadius: 3,
+        borderRadius: 24,
         height: BaseTheme.spacing[7],
         marginTop: BaseTheme.spacing[1],
-        marginRight: BaseTheme.spacing[1],
+        marginRight: 10,
         zIndex: 1,
+        backgroundColor: "#707070",
         width: BaseTheme.spacing[7]
     },
     titleBarButton: {
@@ -52,6 +53,7 @@ export default {
             padding: 12,
             fontSize: TITLE_BAR_BUTTON_SIZE
         },
+        borderRadius: 24,
         underlayColor: 'transparent'
     },
     lonelyMeetingContainer: {
@@ -64,12 +66,13 @@ export default {
         paddingVertical: BaseTheme.spacing[2]
     },
     pipButtonContainer: {
-        borderRadius: 3,
+        borderRadius: 24,
         height: BaseTheme.spacing[7],
         marginTop: BaseTheme.spacing[1],
         marginLeft: BaseTheme.spacing[1],  // Placed on the left
         zIndex: 1,
-        width: BaseTheme.spacing[7]
+        width: BaseTheme.spacing[7],
+        backgroundColor: "#707070"
     },
     pipButton: {
         iconStyle: {
@@ -77,6 +80,7 @@ export default {
             padding: 12,
             fontSize: TITLE_BAR_BUTTON_SIZE
         },
+        borderRadius: 24,
         underlayColor: 'transparent'
     },
     titleBarSafeViewColor: {
@@ -93,7 +97,7 @@ export default {
         height: BaseTheme.spacing[8],
         justifyContent: 'space-between',  // Correct type for justifyContent
         paddingHorizontal: BaseTheme.spacing[2],
-        backgroundColor: "#0000003e"
+        backgroundColor: "rgba(0, 0, 0, 0.42)"
     },
     alwaysOnTitleBar: {
         ...alwaysOnTitleBar,
@@ -167,13 +171,12 @@ export default {
         color: BaseTheme.palette.uiBackground,
         paddingLeft: BaseTheme.spacing[2]
     },
- 
     // New container for right-aligned buttons
     rightButtonsContainer: {
-        flexDirection: 'row',  // Correct type for flexDirection
-        justifyContent: 'flex-end',  // Correct type for justifyContent
-        alignItems: 'center',        // Correct type for alignItems
-    }
+        flexDirection: 'row' as const,
+        justifyContent: 'flex-end' as const,
+        alignItems: 'center' as const
+    },
 };
  
  

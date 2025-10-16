@@ -62,7 +62,7 @@ export const TRANSLATION_LANGUAGES_HEAD: Array<string> = [ DEFAULT_LANGUAGE ];
  *
  * @type {i18next.InitOptions}
  */
-const options: i18next.InitOptions = {
+const options: InitOptions = {
     backend: {
         loadPath: (lng: string[], ns: string[]) => {
             switch (ns[0]) {
@@ -87,7 +87,7 @@ const options: i18next.InitOptions = {
     },
     returnEmptyString: false,
     returnNull: false,
-    whitelist: LANGUAGES.slice()
+    supportedLngs: LANGUAGES.slice()
 };
 
 // Check if React Native is being used

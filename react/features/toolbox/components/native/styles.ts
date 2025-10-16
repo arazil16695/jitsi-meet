@@ -20,7 +20,6 @@ const toolbarButton = {
     marginVertical: 6,
     width: BUTTON_SIZE
 };
- 
 /**
 * The icon style of the toolbar buttons.
 */
@@ -29,8 +28,6 @@ const toolbarButtonIcon = {
     color: BaseTheme.palette.icon04,
     fontSize: 24
 };
- 
- 
 /**
 * The icon style of toolbar buttons which display white icons.
 */
@@ -38,7 +35,6 @@ const whiteToolbarButtonIcon = {
     ...toolbarButtonIcon,
     color: BaseTheme.palette.icon01
 };
- 
 /**
 * The style of reaction buttons.
 */
@@ -49,12 +45,10 @@ const reactionButton = {
     marginTop: 0,
     marginHorizontal: 0
 };
- 
 const gifButton = {
     ...reactionButton,
     backgroundColor: '#000'
 };
- 
 /**
 * The style of the emoji on the reaction buttons.
 */
@@ -62,24 +56,20 @@ const reactionEmoji = {
     fontSize: 20,
     color: BaseTheme.palette.icon01
 };
- 
 const reactionMenu = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BaseTheme.palette.ui01
 };
- 
 /**
 * The Toolbox and toolbar related styles.
 */
 const styles = {
- 
     sheetGestureRecognizer: {
         alignItems: 'stretch',
         flexDirection: 'column'
     },
- 
     /**
      * The style of the toolbar.
      */
@@ -91,7 +81,6 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
- 
     /**
      * The style of the root/top-level container of {@link Toolbox}.
      */
@@ -104,7 +93,6 @@ const styles = {
         paddingHorizontal: BaseTheme.spacing[2],
         width: '100%'
     },
- 
     toolboxButtonIconContainer: {
         alignItems: 'center',
         borderRadius: BaseTheme.shape.borderRadius,
@@ -113,9 +101,7 @@ const styles = {
         width: BaseTheme.spacing[7]
     }
 };
- 
 export default styles;
- 
 /**
 * Color schemed styles for the @{Toolbox} component.
 */
@@ -127,72 +113,90 @@ ColorSchemeRegistry.register('Toolbox', {
         iconStyle: toolbarButtonIcon,
         style: toolbarButton
     },
- 
+    viewStyle: {
+        iconStyle: whiteToolbarButtonIcon,
+        style: {
+            ...toolbarButton,
+            backgroundColor: "#4E504F",
+            width: 1,
+        },
+        underlayColor: 'transparent'
+    },
+    overFlowmenuStyle: {
+        iconStyle: {
+            ...whiteToolbarButtonIcon,
+            transform: [{rotate: '0deg'}]
+        },
+        style: {
+            ...toolbarButton,
+            backgroundColor: "#4E504F",
+            borderRadius: 20,
+     
+            width: 40,
+            marginLeft: -20
+        },
+        underlayColor: 'transparent'
+    },
     buttonStylesBorderless: {
         iconStyle: whiteToolbarButtonIcon,
         style: {
             ...toolbarButton,
-            backgroundColor: 'transparent'
+            backgroundColor: "#4E504F",
+            borderRadius: 20,
+            width: 65,
         },
         underlayColor: 'transparent'
     },
- 
     backgroundToggle: {
         backgroundColor: BaseTheme.palette.ui04
     },
- 
     hangupMenuContainer: {
         marginHorizontal: BaseTheme.spacing[2],
         marginVertical: BaseTheme.spacing[2]
     },
- 
     hangupButton: {
         flex: 1,
         marginHorizontal: BaseTheme.spacing[2],
         marginVertical: BaseTheme.spacing[2]
     },
- 
     hangupButtonStyles: {
         iconStyle: whiteToolbarButtonIcon,
         style: {
             ...toolbarButton,
-            backgroundColor: schemeColor('hangup')
+            backgroundColor: schemeColor('hangup'),
+            borderRadius: 20,
+            width: 65
         },
-        underlayColor: BaseTheme.palette.ui04
+        underlayColor: BaseTheme.palette.ui04,
+        elevation: 10
     },
- 
     reactionDialog: {
         position: 'absolute',
         width: '100%',
         height: '100%',
         backgroundColor: 'transparent'
     },
- 
     overflowReactionMenu: {
         ...reactionMenu,
         padding: BaseTheme.spacing[3]
     },
- 
     reactionMenu: {
         ...reactionMenu,
         paddingHorizontal: BaseTheme.spacing[3],
         borderRadius: 3,
         width: 360
     },
- 
     reactionRow: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
- 
     reactionButton: {
         gifButton,
         style: reactionButton,
         underlayColor: BaseTheme.palette.ui04,
         emoji: reactionEmoji
     },
- 
     emojiAnimation: {
         color: BaseTheme.palette.icon01,
         position: 'absolute',
@@ -202,7 +206,6 @@ ColorSchemeRegistry.register('Toolbox', {
         left: '50%',
         top: '100%'
     },
- 
     /**
      * Styles for toggled buttons in the toolbar.
      */

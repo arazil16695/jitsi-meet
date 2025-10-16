@@ -200,7 +200,9 @@ const ConferenceNavigationContainer = () => {
                     name = { screen.conference.carmode }
                     options = {{
                         ...carmodeScreenOptions,
-                        title: t('carmode.labels.title')
+                        title: t('carmode.labels.title'),
+                        gestureEnabled: false,
+                        headerShown: false,
                     }} />
                 <ConferenceStack.Screen
                     component = { LanguageSelectorDialog }
@@ -228,5 +230,4 @@ const ConferenceNavigationContainer = () => {
         </NavigationContainer>
     );
 };
-
 export default ConferenceNavigationContainer;

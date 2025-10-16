@@ -99,7 +99,7 @@ export const breakoutRoomsScreenOptions = presentationScreenOptions;
 /**
  * Screen options for car mode.
  */
-export const carmodeScreenOptions = presentationScreenOptions;
+//export const carmodeScreenOptions = presentationScreenOptions;
 
 /**
  * Screen options for chat.

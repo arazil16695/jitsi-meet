@@ -16,17 +16,13 @@
  */
 
 #include <mach/mach_time.h>
-
 #import <UIKit/UIKit.h>
-
 #import "ExternalAPI.h"
 #import "JitsiMeet+Private.h"
 #import "JitsiMeetConferenceOptions+Private.h"
 #import "JitsiMeetView+Private.h"
 #import "ReactUtils.h"
 #import "RNRootView.h"
-
-
 #pragma mark UIColor helpers
 
 @interface UIColor (Hex)
@@ -294,7 +290,6 @@ static NSString *recordingModeToString(RecordingMode mode);
             = [NSNumber numberWithBool:
                self.delegate && [self.delegate respondsToSelector:@selector(enterPictureInPicture:)]];
     }
-
     // This method is supposed to be imperative i.e. a second
     // invocation with one and the same URL is expected to join the respective
     // conference again if the first invocation was followed by leaving the
@@ -304,7 +299,6 @@ static NSString *recordingModeToString(RecordingMode mode);
     // source code. The workaround implemented below introduces imperativeness
     // in React Component props by defining a unique value per invocation.
     props[@"timestamp"] = @(mach_absolute_time());
-
     if (rootView) {
         // Update props with the new URL.
         rootView.appProperties = props;
@@ -324,9 +318,7 @@ static NSString *recordingModeToString(RecordingMode mode);
         [self addSubview:rootView];
     }
 }
-
 @end
-
 static NSString *recordingModeToString(RecordingMode mode) {
     switch (mode) {
         case RecordingModeFile:

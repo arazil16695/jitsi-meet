@@ -1,5 +1,12 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 12C16.5 13.6569 17.8431 15 19.5 15C21.1569 15 22.5 13.6569 22.5 12C22.5 10.3431 21.1569 9 19.5 9C17.8431 9 16.5 10.3431 16.5 12ZM18 12C18 12.8284 18.6716 13.5 19.5 13.5C20.3284 13.5 21 12.8284 21 12C21 11.1716 20.3284 10.5 19.5 10.5C18.6716 10.5 18 11.1716 18 12Z" />
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12ZM10.5 12C10.5 12.8284 11.1716 13.5 12 13.5C12.8284 13.5 13.5 12.8284 13.5 12C13.5 11.1716 12.8284 10.5 12 10.5C11.1716 10.5 10.5 11.1716 10.5 12Z" />
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 15C2.84315 15 1.5 13.6569 1.5 12C1.5 10.3431 2.84315 9 4.5 9C6.15685 9 7.5 10.3431 7.5 12C7.5 13.6569 6.15685 15 4.5 15ZM4.5 13.5C3.67157 13.5 3 12.8284 3 12C3 11.1716 3.67157 10.5 4.5 10.5C5.32843 10.5 6 11.1716 6 12C6 12.8284 5.32843 13.5 4.5 13.5Z" />
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_40596" data-name="Rectangle 40596" width="14" height="14" transform="translate(13.954) rotate(90)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="menu-dots_1" data-name="menu-dots 1" transform="translate(0.046)" clip-path="url(#clip-path)">
+    <path id="Path_123137" data-name="Path 123137" d="M5.505,12.552a1.458,1.458,0,1,0,1.458-1.458A1.458,1.458,0,0,0,5.505,12.552Z" fill="#fff"/>
+    <path id="Path_123138" data-name="Path 123138" d="M5.544,7A1.458,1.458,0,1,0,7,5.542,1.458,1.458,0,0,0,5.544,7Z" fill="#fff"/>
+    <path id="Path_123139" data-name="Path 123139" d="M5.544,1.458A1.458,1.458,0,1,0,7,0,1.458,1.458,0,0,0,5.544,1.458Z" fill="#fff"/>
+  </g>
 </svg>

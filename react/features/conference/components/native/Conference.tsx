@@ -277,7 +277,7 @@ class Conference extends AbstractConference<IProps, State> {
             {
                 _shouldDisplayTileView
                 || <>
-                <View style={{ marginBottom: 100 }}>
+                <View style={{ marginBottom: 120 }}>
                     <Filmstrip />
                 </View>
                     { this._renderNotificationsContainer() }
