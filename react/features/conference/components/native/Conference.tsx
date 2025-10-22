@@ -76,7 +76,7 @@ interface IProps extends AbstractProps {
     _pictureInPictureEnabled: boolean;
     _reducedUI: boolean;
     _showLobby: boolean;
-    _startCarMode: boolean;
+//    _startCarMode: boolean;
     _toolboxVisible: boolean;
     dispatch: IStore['dispatch'];
     insets: EdgeInsets;

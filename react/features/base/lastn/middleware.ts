@@ -36,7 +36,7 @@ const _updateLastN = debounce(({ dispatch, getState }: IStore) => {
     const { appState } = state['features/mobile/background'] || {};
     const { enabled: filmStripEnabled } = state['features/filmstrip'];
     const config = state['features/base/config'];
-    const { carMode } = state['features/video-layout'];
+//x    const { carMode } = state['features/video-layout'];
 
     // Select the (initial) lastN value based on the following preference order.
     // 1. The last-n value from 'startLastN' if it is specified in config.js
