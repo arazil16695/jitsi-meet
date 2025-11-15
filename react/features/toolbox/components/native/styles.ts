@@ -133,7 +133,7 @@ ColorSchemeRegistry.register('Toolbox', {
             borderRadius: 20,
      
             width: 40,
-            marginLeft: -20
+            marginLeft: -10
         },
         underlayColor: 'transparent'
     },
@@ -143,7 +143,7 @@ ColorSchemeRegistry.register('Toolbox', {
             ...toolbarButton,
             backgroundColor: "#4E504F",
             borderRadius: 20,
-            width: 65,
+            width: 55,
         },
         underlayColor: 'transparent'
     },
@@ -165,7 +165,7 @@ ColorSchemeRegistry.register('Toolbox', {
             ...toolbarButton,
             backgroundColor: schemeColor('hangup'),
             borderRadius: 20,
-            width: 65
+            width: 55
         },
         underlayColor: BaseTheme.palette.ui04,
         elevation: 10

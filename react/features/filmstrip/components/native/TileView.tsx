@@ -95,13 +95,14 @@ class TileView extends PureComponent<IProps> {
     if (!participants.length) return null;
 
     // ---- GRID RULES (up to 10, with sensible fallback) ----
-let columns = 1;
-let rows = 1;
+    let columns = 1;
+
+    let rows = 1;
 
 if (_participantCount <= 1) {
   columns = 1; rows = 1;
 } else if (_participantCount === 2) {
-  columns = 2; rows = 1;
+  columns = 1; rows = 2;
 } else if (_participantCount <= 4) {
   columns = 2; rows = 2;
 } else if (_participantCount <= 6) {
@@ -118,7 +119,68 @@ if (_participantCount <= 1) {
   // fallback >20: still 4×5 (shows first 20 neatly)
   columns = 4; rows = 5;
 }
+ if (_participantCount ===3) {
+ const { _participantCount, _width, _height, onClick } = this.props;
+    const participants = this._getSortedParticipants();
+    if (_participantCount !== 3) return null;  // Only handle 3 participants
+    const columns = 2;   // We will use 2 columns
+    const rows = 2;      // Two rows
+    const tileWidth = _width / columns;  // Each tile will take half the width for the first two participants
+    const tileHeight = _height / rows;  // Two rows, so each tile will have equal height
+    // Ensure container styles track size
+    if (this._flatListStyles.minHeight !== _height || this._flatListStyles.minWidth !== _width) {
+        this._flatListStyles = { ...styles.flatListTileView, minHeight: _height, minWidth: _width };
+    }
+    if (this._contentContainerStyles.minHeight !== _height || this._contentContainerStyles.minWidth !== _width) {
+        this._contentContainerStyles = {
+            ...styles.contentContainer,
+            minHeight: _height,
+            minWidth: _width,
+            paddingBottom: this.props.insets?.bottom || 0
+        };
+    }
+    // renderItem function to handle full width for the third participant
+    const renderItem = ({ item, index }: { item: string, index: number }) => {
+        // Special case for the third participant (index 2): make it take full width
+        const isFullWidth = index === 2;  // The third participant should span the full width
+        const width = isFullWidth ? _width : tileWidth;  // Full width for the third participant
 
+        return (
+            <Thumbnail
+                key={item}
+                participantID={item}
+                tileView={true}
+                renderDisplayName={true}
+                width={width}  // Adjust width for the third participant in the second row
+                height={tileHeight}
+            />
+        );
+    };
+
+    return (
+        <TouchableWithoutFeedback onPress={onClick}>
+            <SafeAreaView style={styles.flatListContainer}>
+                <FlatList
+                    bounces={false}
+                    contentContainerStyle={this._contentContainerStyles}
+                    data={participants}
+                    horizontal={false}
+                    initialNumToRender={3}  // Render all 3 participants initially
+                    key={`cols-${columns}`}  // Force relayout when grid changes
+                    keyExtractor={this._keyExtractor}
+                    numColumns={columns}     // Use 2 columns for this case
+                    onViewableItemsChanged={this._onViewableItemsChanged}
+                    renderItem={renderItem}
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    style={this._flatListStyles}
+                    viewabilityConfig={this._viewabilityConfig}
+                    windowSize={3}
+                />
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
+    );
+ } else {
 const tileWidth = _width / columns;
 const tileHeight = _height / rows;
 
@@ -171,6 +233,7 @@ const tileHeight = _height / rows;
         </SafeAreaView>
       </TouchableWithoutFeedback>
     );
+  }
   }
 }
 

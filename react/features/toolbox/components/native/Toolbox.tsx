@@ -78,7 +78,7 @@ function Toolbox(props: IProps) {
                             isToolboxButton={true}
                             styles={key === 'hangup' ? hangupButtonStyles
                                 : key === 'overflowmenu' ? overFlowmenuStyle
-                                    : key === 'chat' ? viewStyle
+                                    // : key === 'chat' ? viewStyle
                                         : buttonStylesBorderless}
                         />
                     </View>
@@ -90,7 +90,7 @@ function Toolbox(props: IProps) {
                                 width: 1,  // Vertical line thickness
                                 height: 30,  // Same height as the button
                                 backgroundColor: '#4E504F', 
-                                marginLeft:-30 // Line color (adjust as needed)
+                                marginLeft:-20 // Line color (adjust as needed)
   // Space between the button and the line// Space between the line and the next button
                             }}
                         />

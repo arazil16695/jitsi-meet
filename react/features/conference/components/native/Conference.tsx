@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { EdgeInsets, withSafeAreaInsets } from 'react-native-safe-area-context';
 import { connect, useDispatch } from 'react-redux';
- 
 import { appNavigate } from '../../../app/actions.native';
 import { IReduxState, IStore } from '../../../app/types';
 import { CONFERENCE_BLURRED, CONFERENCE_FOCUSED } from '../../../base/conference/actionTypes';
@@ -76,7 +75,7 @@ interface IProps extends AbstractProps {
     _pictureInPictureEnabled: boolean;
     _reducedUI: boolean;
     _showLobby: boolean;
-//    _startCarMode: boolean;
+    _startCarMode: boolean;
     _toolboxVisible: boolean;
     dispatch: IStore['dispatch'];
     insets: EdgeInsets;
@@ -188,23 +187,18 @@ class Conference extends AbstractConference<IProps, State> {
         } else {
             p = Promise.reject(new Error('PiP not enabled'));
         }
- 
         p.catch(() => {
             this.props.dispatch(appNavigate(undefined));
         });
- 
         return true;
     }
- 
     _createOnPress(label: string) {
         return () => {
             const { visibleExpandedLabel } = this.state;
             const newVisibleExpandedLabel
                 = visibleExpandedLabel === label ? undefined : label;
- 
             clearTimeout(this._expandedLabelTimeout.current);
             this.setState({ visibleExpandedLabel: newVisibleExpandedLabel });
- 
             if (newVisibleExpandedLabel) {
                 this._expandedLabelTimeout.current = setTimeout(() => {
                     this.setState({ visibleExpandedLabel: undefined });
@@ -212,7 +206,6 @@ class Conference extends AbstractConference<IProps, State> {
             }
         };
     }
- 
     _renderContent() {
         const {
             _aspectRatio,
@@ -224,13 +217,10 @@ class Conference extends AbstractConference<IProps, State> {
             _shouldDisplayTileView,
             _toolboxVisible
         } = this.props;
- 
         let alwaysOnTitleBarStyles;
- 
         if (_reducedUI) {
             return this._renderContentForReducedUi();
         }
- 
         if (_aspectRatio === ASPECT_RATIO_WIDE) {
             alwaysOnTitleBarStyles
                 = !_shouldDisplayTileView && _filmstripVisible
@@ -239,30 +229,30 @@ class Conference extends AbstractConference<IProps, State> {
         } else {
             alwaysOnTitleBarStyles = styles.alwaysOnTitleBar;
         }
- 
         return (
     <>
         {
             _shouldDisplayTileView
                 ? <TileView onClick={this._onClick} />
-                : <LargeVideo onClick={this._onClick} />
-        }
-
+                :
+                //  (
+                // <DraggableCameraView> {
+                    <LargeVideo onClick={this._onClick} />
+                // } 
+                // </DraggableCameraView>
+                //                 )
+    }
         <CalleeInfoContainer />
-
         { _connecting &&
             <TintedView>
                 <LoadingIndicator />
             </TintedView>
         }
-
         {/* Toolbox + Filmstrip container pinned at bottom */}
         <View
             pointerEvents="box-none"
             style={styles.toolboxAndFilmstripContainer as ViewStyle}>
-
             <Captions onPress={this._onClick} />
-
             {/* {
                 _shouldDisplayTileView
                 || (_isDisplayNameVisible && (
@@ -271,13 +261,11 @@ class Conference extends AbstractConference<IProps, State> {
                     </Container>
                 ))
             }  */}
-
             { !_shouldDisplayTileView && <LonelyMeetingExperience /> }
-
             {
                 _shouldDisplayTileView
                 || <>
-                <View style={{ marginBottom: 120 }}>
+                <View style={{ marginBottom: 100 }}>
                     <Filmstrip />
                 </View>
                     { this._renderNotificationsContainer() }
@@ -285,7 +273,6 @@ class Conference extends AbstractConference<IProps, State> {
                 </>
             }
         </View>
-
         <SafeAreaView
             pointerEvents="box-none"
             style={
@@ -295,7 +282,6 @@ class Conference extends AbstractConference<IProps, State> {
             }>
             <TitleBar _createOnPress={this._createOnPress} />
         </SafeAreaView>
-
         <SafeAreaView
             pointerEvents="box-none"
             style={
@@ -310,9 +296,7 @@ class Conference extends AbstractConference<IProps, State> {
                 <AlwaysOnLabels createOnPress={this._createOnPress} />
             </View>
         </SafeAreaView>
-
         <TestConnectionInfo />
-
         {
             _shouldDisplayTileView
             && <>
@@ -323,10 +307,8 @@ class Conference extends AbstractConference<IProps, State> {
     </>
 );
     }
- 
     _renderContentForReducedUi() {
         const { _connecting } = this.props;
- 
         return (
             <>
                 <LargeVideo onClick={this._onClick} />
@@ -338,11 +320,9 @@ class Conference extends AbstractConference<IProps, State> {
             </>
         );
     }
- 
     _renderNotificationsContainer() {
         const notificationsStyle: ViewStyle = {};
         const { _aspectRatio, _filmstripVisible } = this.props;
- 
         if (_filmstripVisible && _aspectRatio !== ASPECT_RATIO_NARROW) {
             notificationsStyle.marginRight = FILMSTRIP_SIZE;
         }

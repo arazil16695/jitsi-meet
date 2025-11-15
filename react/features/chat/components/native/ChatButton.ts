@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-
+import { NativeModules, NativeEventEmitter } from 'react-native';
 import { IReduxState } from '../../../app/types';
 import { CHAT_ENABLED } from '../../../base/flags/constants';
 import { getFeatureFlag } from '../../../base/flags/functions';
@@ -11,7 +11,7 @@ import { navigate } from '../../../mobile/navigation/components/conference/Confe
 import { screen } from '../../../mobile/navigation/routes';
 import { getUnreadPollCount } from '../../../polls/functions';
 import { getUnreadCount } from '../../functions';
-
+const { LogBridge } = NativeModules;
 interface IProps extends AbstractButtonProps {
 
     /**
@@ -41,9 +41,10 @@ class ChatButton extends AbstractButton<IProps> {
      * @returns {void}
      */
     override _handleClick() {
-        this.props._isPollsDisabled
-            ? navigate(screen.conference.chat)
-            : navigate(screen.conference.chatandpolls.main);
+        // this.props._isPollsDisabled
+        //     ? navigate(screen.conference.chat)
+        //     : navigate(screen.conference.chatandpolls.main);
+        LogBridge.jitsiEvent('ReactNativeJS Chat');
     }
 
     /**

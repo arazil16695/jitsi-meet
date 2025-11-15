@@ -36,35 +36,30 @@ const _updateLastN = debounce(({ dispatch, getState }: IStore) => {
     const { appState } = state['features/mobile/background'] || {};
     const { enabled: filmStripEnabled } = state['features/filmstrip'];
     const config = state['features/base/config'];
-//x    const { carMode } = state['features/video-layout'];
-
+    const { carMode } = state['features/video-layout'];
     // Select the (initial) lastN value based on the following preference order.
     // 1. The last-n value from 'startLastN' if it is specified in config.js
     // 2. The last-n value from 'channelLastN' if specified in config.js.
     // 3. -1 as the default value.
-    let lastNSelected = config.startLastN ?? (config.channelLastN ?? -1);
-
-    // Because this is shared, on web appState is always undefined,
-    // meaning that it is never active
-    if (navigator.product === 'ReactNative' && (appState !== 'active' || carMode)) {
-        lastNSelected = 0;
+     let lastNSelected = config.startLastN ?? (config.channelLastN ?? -1);
+   // Because this is shared, on web appState is always undefined,
+   // meaning that it is never active
+    if (navigator.product === 'ReactNative' && appState !== 'active') {
+       lastNSelected = 0;
     } else if (audioOnly) {
         const { remoteScreenShares, tileViewEnabled } = state['features/video-layout'];
         const largeVideoParticipantId = state['features/large-video'].participantId;
-        const largeVideoParticipant
-            = largeVideoParticipantId ? getParticipantById(state, largeVideoParticipantId) : undefined;
+        const largeVideoParticipant = largeVideoParticipantId ? getParticipantById(state, largeVideoParticipantId) : undefined;
 
-        // Use tileViewEnabled state from redux here instead of determining if client should be in tile
-        // view since we make an exception only for screenshare when in audio-only mode. If the user unpins
-        // the screenshare, lastN will be set to 0 here. It will be set to 1 if screenshare has been auto pinned.
-        if (!tileViewEnabled && largeVideoParticipant && !largeVideoParticipant.local) {
-            lastNSelected = (remoteScreenShares || []).includes(largeVideoParticipantId ?? '') ? 1 : 0;
-        } else {
-            lastNSelected = 0;
-        }
-    } else if (!filmStripEnabled) {
-        lastNSelected = 1;
+    if (!tileViewEnabled && largeVideoParticipant && !largeVideoParticipant.local) {
+        lastNSelected = (remoteScreenShares || []).includes(largeVideoParticipantId ?? '') ? 1 : 0;
+    } else {
+        lastNSelected = 0;
     }
+} else if (!filmStripEnabled) {
+    lastNSelected = 1;
+}
+
 
     const { lastN } = state['features/base/lastn'];
 

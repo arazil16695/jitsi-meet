@@ -97,7 +97,7 @@ export default {
         height: BaseTheme.spacing[8],
         justifyContent: 'space-between',  // Correct type for justifyContent
         paddingHorizontal: BaseTheme.spacing[2],
-        backgroundColor: "rgba(0, 0, 0, 0.42)"
+        backgroundColor: "rgba(0, 0, 0, 0)"
     },
     alwaysOnTitleBar: {
         ...alwaysOnTitleBar,
