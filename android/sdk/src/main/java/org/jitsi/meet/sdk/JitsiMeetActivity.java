@@ -63,7 +63,7 @@ public class JitsiMeetActivity extends AppCompatActivity
                 if (message != null) {
                     // Handle the broadcast message here
                     Log.d("Jitsi is here","Broadcast receuveed:"+message);
-                    onRequestAddParticipant();
+                    onRequestAddParticipant(message);
                 }
             }
         }
@@ -272,7 +272,7 @@ public class JitsiMeetActivity extends AppCompatActivity
             JitsiMeetLogger.w("Invalid participant left extraData", e);
         }
     }
-    protected void onRequestAddParticipant(){
+    protected void onRequestAddParticipant(String message){
         try {
             Log.d("Jitsi is here","Participant left: ");
         } catch (Exception e) {

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-
+import { NativeModules, NativeEventEmitter } from 'react-native';
 import { IReduxState } from '../../../app/types';
 import { translate } from '../../../base/i18n/functions';
 import { IconArrowDown } from '../../../base/icons/svg';
 import AbstractButton, { IProps as AbstractButtonProps } from '../../../base/toolbox/components/AbstractButton';
 import { enterPictureInPicture } from '../actions';
 import { isPipEnabled } from '../functions';
-
+const { LogBridge } = NativeModules;
 interface IProps extends AbstractButtonProps {
 
     /**
@@ -30,9 +30,9 @@ class PictureInPictureButton extends AbstractButton<IProps> {
      * @returns {void}
      */
     override _handleClick() {
-        this.props.dispatch(enterPictureInPicture());
+//        this.props.dispatch(enterPictureInPicture());
+       LogBridge.jitsiEvent('ReactNativeJS PiP');
     }
-
     /**
      * Implements React's {@link Component#render()}.
      *
@@ -43,7 +43,6 @@ class PictureInPictureButton extends AbstractButton<IProps> {
         return this.props._enabled ? super.render() : null;
     }
 }
-
 /**
  * Maps (parts of) the redux state to the associated props for the
  * {@code PictureInPictureButton} component.
@@ -61,5 +60,4 @@ function _mapStateToProps(state: IReduxState) {
         _enabled: enabled
     };
 }
-
 export default translate(connect(_mapStateToProps)(PictureInPictureButton));

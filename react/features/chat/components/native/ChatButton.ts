@@ -24,7 +24,6 @@ interface IProps extends AbstractButtonProps {
      */
     _unreadMessageCount: number;
 }
-
 /**
  * Implements an {@link AbstractButton} to open the chat screen on mobile.
  */
@@ -33,7 +32,6 @@ class ChatButton extends AbstractButton<IProps> {
     override icon = IconMessage;
     override label = 'toolbar.chat';
     override toggledIcon = IconChatUnread;
-
     /**
      * Handles clicking / pressing the button, and opens the appropriate dialog.
      *
@@ -46,7 +44,6 @@ class ChatButton extends AbstractButton<IProps> {
         //     : navigate(screen.conference.chatandpolls.main);
         LogBridge.jitsiEvent('ReactNativeJS Chat');
     }
-
     /**
      * Renders the button toggled when there are unread messages.
      *
@@ -57,7 +54,6 @@ class ChatButton extends AbstractButton<IProps> {
         return Boolean(this.props._unreadMessageCount);
     }
 }
-
 /**
  * Maps part of the redux state to the component's props.
  *
@@ -68,10 +64,8 @@ class ChatButton extends AbstractButton<IProps> {
 function _mapStateToProps(state: IReduxState, ownProps: any) {
     const enabled = getFeatureFlag(state, CHAT_ENABLED, true);
     const { visible = enabled } = ownProps;
-
     return {
         _isPollsDisabled: arePollsDisabled(state),
-
         // The toggled icon should also be available for new polls
         _unreadMessageCount: getUnreadCount(state) || getUnreadPollCount(state),
         visible

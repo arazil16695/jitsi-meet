@@ -1,4 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
+import { getParticipantCount, getLocalParticipant } from '../../../base/participants/functions';
+import Thumbnail from '../../../filmstrip/components/native/Thumbnail';
 import React, { useCallback } from 'react';
 import {
     BackHandler,
@@ -9,6 +11,7 @@ import {
     View,
     ViewStyle
 } from 'react-native';
+import DraggableCameraView from '../../../base/ui/components/native/DraggableCameraView';
 import { EdgeInsets, withSafeAreaInsets } from 'react-native-safe-area-context';
 import { connect, useDispatch } from 'react-redux';
 import { appNavigate } from '../../../app/actions.native';
@@ -56,7 +59,6 @@ import LonelyMeetingExperience from './LonelyMeetingExperience';
 import TitleBar from './TitleBar';
 import { EXPANDED_LABEL_TIMEOUT } from './constants';
 import styles from './styles';
- 
 /**
 * The type of the React {@code Component} props of {@link Conference}.
 */
@@ -80,12 +82,12 @@ interface IProps extends AbstractProps {
     dispatch: IStore['dispatch'];
     insets: EdgeInsets;
     navigation: any;
+    _participantCount: number;
+    _localParticipantId: string;
 }
- 
 type State = {
     visibleExpandedLabel?: string;
 };
- 
 class Conference extends AbstractConference<IProps, State> {
     _expandedLabelTimeout: any;
     _hardwareBackPressSubscription: any;
@@ -231,17 +233,31 @@ class Conference extends AbstractConference<IProps, State> {
         }
         return (
     <>
-        {
-            _shouldDisplayTileView
-                ? <TileView onClick={this._onClick} />
-                :
-                //  (
-                // <DraggableCameraView> {
-                    <LargeVideo onClick={this._onClick} />
-                // } 
-                // </DraggableCameraView>
-                //                 )
-    }
+ {
+    _shouldDisplayTileView ? (
+        <TileView onClick={this._onClick} />
+    ) : this.props._participantCount === 1 ? (
+        /** --- 1 PARTICIPANT → FULLSCREEN --- */
+        <LargeVideo onClick={this._onClick} />
+    ) : this.props._participantCount === 2 ? (
+        /** --- 2 PARTICIPANTS → LOCAL VIDEO DRAGGABLE --- */
+        <>
+            {/* REMOTE big */}
+            <LargeVideo onClick={this._onClick} />
+            {/* LOCAL small & draggable */}
+            <DraggableCameraView>
+                <Thumbnail
+                    participantID={this.props._localParticipantId}
+                    renderDisplayName={false}
+                    tileView={false}
+                />
+            </DraggableCameraView>
+        </>
+    ) : (
+        /** --- MORE THAN 2 → FULLSCREEN --- */
+        <LargeVideo onClick={this._onClick} />
+    )
+}
         <CalleeInfoContainer />
         { _connecting &&
             <TintedView>
@@ -262,16 +278,21 @@ class Conference extends AbstractConference<IProps, State> {
                 ))
             }  */}
             { !_shouldDisplayTileView && <LonelyMeetingExperience /> }
-            {
-                _shouldDisplayTileView
-                || <>
-                <View style={{ marginBottom: 100 }}>
-                    <Filmstrip />
-                </View>
-                    { this._renderNotificationsContainer() }
-                    { _toolboxVisible && <Toolbox /> }
-                </>
-            }
+
+{
+    _shouldDisplayTileView
+    || <>
+        {/* Hide Filmstrip WHEN participantCount === 2 */}
+        { this.props._participantCount !== 2 && (
+            <View style={{ marginBottom: 100 }}>
+                <Filmstrip />
+            </View>
+        )}
+
+        { this._renderNotificationsContainer() }
+        { _toolboxVisible && <Toolbox /> }
+    </>
+}
         </View>
         <SafeAreaView
             pointerEvents="box-none"
@@ -338,7 +359,6 @@ class Conference extends AbstractConference<IProps, State> {
         this.props.dispatch(setToolboxVisible(visible));
     }
 }
- 
 function _mapStateToProps(state: IReduxState, _ownProps: any) {
     const { isOpen } = state['features/participants-pane'];
     const { aspectRatio, reducedUI } = state['features/base/responsive-ui'];
@@ -346,9 +366,11 @@ function _mapStateToProps(state: IReduxState, _ownProps: any) {
     const { startCarMode } = state['features/base/settings'];
     const { enabled: audioOnlyEnabled } = state['features/base/audio-only'];
     const brandingStyles = backgroundColor ? { backgroundColor } : undefined;
- 
     return {
         ...abstractMapStateToProps(state),
+        /** YOUR NEW LINES BELOW **/
+        _participantCount: getParticipantCount(state),
+        _localParticipantId: getLocalParticipant(state)?.id,
         _aspectRatio: aspectRatio,
         _audioOnlyEnabled: Boolean(audioOnlyEnabled),
         _brandingStyles: brandingStyles,
@@ -384,4 +406,3 @@ export default withSafeAreaInsets(connect(_mapStateToProps)(props => {
         <Conference { ...props } />
     );
 }));
- 

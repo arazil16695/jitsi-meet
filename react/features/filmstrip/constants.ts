@@ -3,7 +3,7 @@ import { BoxModel } from '../base/styles/components/styles/BoxModel';
 /**
  * The size (height and width) of the small (not tile view) thumbnails.
  */
-export const SMALL_THUMBNAIL_SIZE = 110;
+export const SMALL_THUMBNAIL_SIZE = 155;
 
 /**
  * The height of the filmstrip in narrow aspect ratio, or width in wide.
