@@ -50,7 +50,6 @@ const _updateLastN = debounce(({ dispatch, getState }: IStore) => {
         const { remoteScreenShares, tileViewEnabled } = state['features/video-layout'];
         const largeVideoParticipantId = state['features/large-video'].participantId;
         const largeVideoParticipant = largeVideoParticipantId ? getParticipantById(state, largeVideoParticipantId) : undefined;
-
     if (!tileViewEnabled && largeVideoParticipant && !largeVideoParticipant.local) {
         lastNSelected = (remoteScreenShares || []).includes(largeVideoParticipantId ?? '') ? 1 : 0;
     } else {

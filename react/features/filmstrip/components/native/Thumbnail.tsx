@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Image, ImageStyle, View, ViewStyle } from 'react-native';
 import { connect } from 'react-redux';
-
 import { IReduxState, IStore } from '../../../app/types';
 import { JitsiTrackEvents } from '../../../base/lib-jitsi-meet';
 import { MEDIA_TYPE, VIDEO_TYPE } from '../../../base/media/constants';
@@ -64,6 +63,7 @@ interface IProps {
   participantID?: string;
   renderDisplayName?: boolean;
   tileView?: boolean;
+  _participantCount?: number;
 }
 
 class Thumbnail extends PureComponent<IProps> {
@@ -79,21 +79,23 @@ class Thumbnail extends PureComponent<IProps> {
     if (tileView) {
       dispatch(toggleToolboxVisible());
     } else {
-      dispatch(pinParticipant(_pinned ? null : _participantId));
+      if (this.props._participantCount !=2) {
+          dispatch(pinParticipant(_pinned ? null : _participantId));
+      }
     }
   }
 
   _onThumbnailLongPress() {
-    const { _fakeParticipant, _participantId, _local, _localVideoOwner, dispatch } = this.props;
-    if (_fakeParticipant && _localVideoOwner) {
-      dispatch(showSharedVideoMenu(_participantId));
-    } else if (!_fakeParticipant) {
-      if (_local) {
-        dispatch(showConnectionStatus(_participantId));
-      } else {
-        dispatch(showContextMenuDetails(_participantId));
-      }
-    }
+    // const { _fakeParticipant, _participantId, _local, _localVideoOwner, dispatch } = this.props;
+    // if (_fakeParticipant && _localVideoOwner) {
+    //   dispatch(showSharedVideoMenu(_participantId));
+    // } else if (!_fakeParticipant) {
+    //   if (_local) {
+    //     dispatch(showConnectionStatus(_participantId));
+    //   } else {
+    //     dispatch(showContextMenuDetails(_participantId));
+    //   }
+    // }
   }
 
   _renderIndicators() {
@@ -289,6 +291,7 @@ function _mapStateToProps(state: IReduxState, ownProps: any) {
   const mode = getGifDisplayMode(state);
 
   return {
+    _participantCount: getParticipantCount(state),
     _audioMuted: audioTrack?.muted ?? true,
     _fakeParticipant: participant?.fakeParticipant,
     _gifSrc: mode === 'chat' ? undefined : gifSrc,

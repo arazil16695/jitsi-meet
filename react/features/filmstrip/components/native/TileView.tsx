@@ -8,44 +8,36 @@ import {
 } from 'react-native';
 import { EdgeInsets, withSafeAreaInsets } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
-
 import { IReduxState, IStore } from '../../../app/types';
 import { getLocalParticipant, getParticipantCountWithFake } from '../../../base/participants/functions';
 import { ILocalParticipant } from '../../../base/participants/types';
 import { getHideSelfView } from '../../../base/settings/functions.any';
 import { setVisibleRemoteParticipants } from '../../actions.web';
-
 import Thumbnail from './Thumbnail';
 import styles from './styles';
-
 interface IProps {
   _aspectRatio: Symbol;
-  _columns: number;               // (kept but not used)
+  _columns: number;
   _disableSelfView: boolean;
   _height: number;
   _localParticipant?: ILocalParticipant;
   _participantCount: number;
   _remoteParticipants: Array<string>;
-  _thumbnailHeight?: number;      // (kept but not used)
+  _thumbnailHeight?: number;
   _width: number;
   dispatch: IStore['dispatch'];
   insets: EdgeInsets;
   onClick: (e?: GestureResponderEvent) => void;
 }
-
 const EMPTY_ARRAY: any[] = [];
-
 class TileView extends PureComponent<IProps> {
   _contentContainerStyles: any;
   _flatListStyles: any;
   _viewabilityConfig: Object;
-
   constructor(props: IProps) {
     super(props);
-
     this._keyExtractor = this._keyExtractor.bind(this);
     this._onViewableItemsChanged = this._onViewableItemsChanged.bind(this);
-
     this._viewabilityConfig = {
       itemVisiblePercentThreshold: 30,
       minimumViewTime: 500
@@ -144,7 +136,6 @@ if (_participantCount <= 1) {
         // Special case for the third participant (index 2): make it take full width
         const isFullWidth = index === 2;  // The third participant should span the full width
         const width = isFullWidth ? _width : tileWidth;  // Full width for the third participant
-
         return (
             <Thumbnail
                 key={item}
@@ -156,7 +147,6 @@ if (_participantCount <= 1) {
             />
         );
     };
-
     return (
         <TouchableWithoutFeedback onPress={onClick}>
             <SafeAreaView style={styles.flatListContainer}>
@@ -183,7 +173,6 @@ if (_participantCount <= 1) {
  } else {
 const tileWidth = _width / columns;
 const tileHeight = _height / rows;
-
     // ensure container styles track size
     if (this._flatListStyles.minHeight !== _height || this._flatListStyles.minWidth !== _width) {
       this._flatListStyles = { ...styles.flatListTileView, minHeight: _height, minWidth: _width };
@@ -196,7 +185,6 @@ const tileHeight = _height / rows;
         paddingBottom: this.props.insets?.bottom || 0
       };
     }
-
     // renderItem closes over computed tile sizes so FlatList and items agree
     const renderItem = ({ item }: { item: string }) => (
       <Thumbnail
@@ -208,7 +196,6 @@ const tileHeight = _height / rows;
         height={tileHeight}
       />
     );
-
     return (
       <TouchableWithoutFeedback onPress={onClick}>
         <SafeAreaView style={styles.flatListContainer}>
@@ -236,12 +223,10 @@ const tileHeight = _height / rows;
   }
   }
 }
-
 function _mapStateToProps(state: IReduxState, ownProps: any) {
   const responsiveUi = state['features/base/responsive-ui'];
   const { remoteParticipants } = state['features/filmstrip'];
   const disableSelfView = getHideSelfView(state);
-
   return {
     _aspectRatio: responsiveUi.aspectRatio,
     _columns: 1, // not used; grid is computed in render()
@@ -255,5 +240,4 @@ function _mapStateToProps(state: IReduxState, ownProps: any) {
     _width: responsiveUi.clientWidth - (ownProps.insets?.right || 0) - (ownProps.insets?.left || 0)
   };
 }
-
 export default withSafeAreaInsets(connect(_mapStateToProps)(TileView));

@@ -76,11 +76,9 @@ export default function LobbyParticipants() {
     const overflowDrawer = useSelector(showOverflowDrawer);
     const [ drawerParticipant, closeDrawer, openDrawerForParticipant ] = useParticipantDrawer();
     const [ admit, reject ] = useLobbyActions(drawerParticipant, closeDrawer);
-
     if (!lobbyEnabled || !participants.length) {
         return null;
     }
-
     return (
         <>
             <div className = { classes.headingContainer }>

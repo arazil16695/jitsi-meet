@@ -5,19 +5,14 @@ import {
     TouchableWithoutFeedback,
     View
 } from 'react-native';
-
 import AbstractContainer, { IProps as AbstractProps } from '../AbstractContainer';
-
 interface IProps extends AbstractProps {
-
     onClick?: (e: GestureResponderEvent) => void;
-
     /**
      * The event handler/listener to be invoked when this
      * {@code AbstractContainer} is long pressed on React Native.
      */
     onLongPress?: (e: GestureResponderEvent) => void;
-
     pointerEvents?: string;
 }
 

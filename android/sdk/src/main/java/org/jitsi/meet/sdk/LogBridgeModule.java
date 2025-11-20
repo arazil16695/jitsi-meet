@@ -82,6 +82,6 @@ class LogBridgeModule extends ReactContextBaseJavaModule {
         Intent intent = new Intent("org.jitsi.meet.Add_Memeber");
         intent.putExtra("message",message);
         LocalBroadcastManager.getInstance(getReactApplicationContext()).sendBroadcast(intent);
-        JitsiMeetLogger.w("ReactNativeJS app.voipbusiness.com", message);
+//        JitsiMeetLogger.w("ReactNativeJS app.voipbusiness.com", message);
     }
 }

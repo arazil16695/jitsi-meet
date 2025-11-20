@@ -54,31 +54,24 @@ extension ViewController: @preconcurrency JitsiMeetViewDelegate {
 
     @objc // make selector visible to Obj-C runtime
     @MainActor
-    func jitsiEventReceived(_ data: NSDictionary) {
+    func jitsiEventReceived(data: NSDictionary) {
         print("jitsiEventReceived was called.")
-        
         if let message = data["message"] as? String {
             print("Received message: \(message)")
         }
     }
-    
     private func onJitsiMeetViewDelegateEvent(_ name: String, withData data: [AnyHashable: Any]?) {
         NSLog("[%@:%d] JitsiMeetViewDelegate %@ %@", #file, #line, name, data ?? [:])
-        
         #if DEBUG
         assert(Thread.isMainThread, "JitsiMeetViewDelegate \(name) method invoked on a non-main thread")
         #endif
     }
-
     // MARK: - JitsiMeetViewDelegate
-    
     func conferenceJoined(_ data: [AnyHashable: Any]) {
         onJitsiMeetViewDelegateEvent("CONFERENCE_JOINED", withData: data)
-        
         // Register a NSUserActivity for this conference so it can be invoked as a Siri shortcut.
         // Must match the one defined in Info.plist
         let userActivity = NSUserActivity(activityType: "org.jitsi.JitsiMeet.ios.conference")
-        
         if let urlStr = data["url"] as? String,
            let url = URL(string: urlStr),
            let conference = url.pathComponents.last {

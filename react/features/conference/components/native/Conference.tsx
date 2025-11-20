@@ -244,6 +244,7 @@ class Conference extends AbstractConference<IProps, State> {
         <>
             {/* REMOTE big */}
             <LargeVideo onClick={this._onClick} />
+
             {/* LOCAL small & draggable */}
             <DraggableCameraView>
                 <Thumbnail
@@ -278,13 +279,12 @@ class Conference extends AbstractConference<IProps, State> {
                 ))
             }  */}
             { !_shouldDisplayTileView && <LonelyMeetingExperience /> }
-
 {
     _shouldDisplayTileView
     || <>
         {/* Hide Filmstrip WHEN participantCount === 2 */}
         { this.props._participantCount !== 2 && (
-            <View style={{ marginBottom: 100 }}>
+            <View style={{ marginBottom: 0 }}>
                 <Filmstrip />
             </View>
         )}
@@ -295,14 +295,20 @@ class Conference extends AbstractConference<IProps, State> {
 }
         </View>
         <SafeAreaView
-            pointerEvents="box-none"
-            style={
-                (_toolboxVisible
-                    ? styles.titleBarSafeViewColor
-                    : styles.titleBarSafeViewTransparent) as ViewStyle
-            }>
-            <TitleBar _createOnPress={this._createOnPress} />
-        </SafeAreaView>
+    pointerEvents="box-none"
+    style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        paddingTop: this.props.insets.top,   // <<< PUSH below notch
+        zIndex: 2000,
+        backgroundColor: 'transparent'
+    }}
+>
+    <TitleBar _createOnPress={this._createOnPress} />
+</SafeAreaView>
+
         <SafeAreaView
             pointerEvents="box-none"
             style={

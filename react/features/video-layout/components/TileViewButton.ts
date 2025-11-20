@@ -54,7 +54,6 @@ class TileViewButton<P extends IProps> extends AbstractButton<P> {
             {
                 'is_enabled': value
             }));
-
         logger.debug(`Tile view ${value ? 'enable' : 'disable'}`);
         batch(() => {
             dispatch(setTileView(value));
