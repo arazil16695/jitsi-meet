@@ -241,7 +241,6 @@
     margin: -100px 0 0 -100px;
     transition: box-shadow 0.3s ease;
 }
-
 .avatar-container {
     @include maxSize(60px);
     @include absoluteAligning();
@@ -260,7 +259,6 @@
         position: absolute;
     }
 }
-
 #videoNotAvailableScreen {
     text-align: center;
     #avatarContainer {

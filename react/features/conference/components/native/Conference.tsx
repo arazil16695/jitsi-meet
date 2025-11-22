@@ -128,15 +128,11 @@ class Conference extends AbstractConference<IProps, State> {
             this._startAutoHideTimer();
         }
     }
- 
     override componentWillUnmount() {
         this._hardwareBackPressSubscription?.remove();
         clearTimeout(this._expandedLabelTimeout.current ?? 0);
         clearTimeout(this._autoHideTimer);
     }
- 
- 
-
     override render() {
         const { _brandingStyles, _fullscreenEnabled } = this.props;
  
@@ -179,7 +175,6 @@ class Conference extends AbstractConference<IProps, State> {
             this._setToolboxVisible(false);
         }, 3000); // auto-hide after 3 seconds
     }
- 
     _onHardwareBackPress() {
         let p;
  

@@ -1,8 +1,6 @@
 /* global APP, JitsiMeetJS, config, interfaceConfig */
-
 import { jitsiLocalStorage } from '@jitsi/js-utils';
 import Logger from '@jitsi/logger';
-
 import { ENDPOINT_TEXT_MESSAGE_NAME } from './modules/API/constants';
 import mediaDeviceHelper from './modules/devices/mediaDeviceHelper';
 import Recorder from './modules/recorder/Recorder';
@@ -162,10 +160,8 @@ import { createRnnoiseProcessor } from './react/features/stream-effects/rnnoise'
 import { handleToggleVideoMuted } from './react/features/toolbox/actions.any';
 import { transcriberJoined, transcriberLeft } from './react/features/transcribing/actions';
 import { muteLocal } from './react/features/video-menu/actions.any';
-
 const logger = Logger.getLogger(__filename);
 let room;
-
 /*
  * Logic to open a desktop picker put on the window global for
  * lib-jitsi-meet to detect and invoke.
@@ -177,7 +173,6 @@ window.JitsiMeetScreenObtainer = {
         APP.store.dispatch(showDesktopPicker(options, onSourceChoose));
     }
 };
-
 /**
  * Known custom conference commands.
  */
@@ -187,7 +182,6 @@ const commands = {
     EMAIL: EMAIL_COMMAND,
     ETHERPAD: 'etherpad'
 };
-
 /**
  * Share data to other users.
  * @param command the command
@@ -197,11 +191,9 @@ function sendData(command, value) {
     if (!room) {
         return;
     }
-
     room.removeCommand(command);
     room.sendCommand(command, { value });
 }
-
 /**
  * A queue for the async replaceLocalTrack action so that multiple audio
  * replacements cannot happen simultaneously. This solves the issue where
@@ -212,7 +204,6 @@ function sendData(command, value) {
  * @type {Object}
  */
 const _replaceLocalAudioTrackQueue = createTaskQueue();
-
 /**
  * A task queue for replacement local video tracks. This separate queue exists
  * so video replacement is not blocked by audio replacement tasks in the queue
@@ -222,7 +213,6 @@ const _replaceLocalAudioTrackQueue = createTaskQueue();
  * @type {Object}
  */
 const _replaceLocalVideoTrackQueue = createTaskQueue();
-
 /**
  *
  */
@@ -240,7 +230,6 @@ class ConferenceConnector {
         room.on(JitsiConferenceEvents.CONFERENCE_FAILED,
             this._onConferenceFailed.bind(this));
     }
-
     /**
      *
      */
@@ -248,16 +237,13 @@ class ConferenceConnector {
         this._unsubscribe();
         this._reject(err);
     }
-
     /**
      *
      */
     _onConferenceFailed(err, ...params) {
         APP.store.dispatch(conferenceFailed(room, err, ...params));
         logger.error('CONFERENCE FAILED:', err, ...params);
-
         switch (err) {
-
         case JitsiConferenceErrors.RESERVATION_ERROR: {
             const [ code, msg ] = params;
 
@@ -292,7 +278,6 @@ class ConferenceConnector {
             }, NOTIFICATION_TIMEOUT_TYPE.SHORT));
             break;
         }
-
         case JitsiConferenceErrors.FOCUS_LEFT:
         case JitsiConferenceErrors.ICE_FAILED:
         case JitsiConferenceErrors.VIDEOBRIDGE_NOT_AVAILABLE:
@@ -374,14 +359,11 @@ export default {
      * the tracks won't exist).
      */
     _localTracksInitialized: false,
-
     /**
      * Flag used to prevent the creation of another local video track in this.muteVideo if one is already in progress.
      */
     isCreatingLocalTrack: false,
-
     isSharingScreen: false,
-
     /**
      * Returns an object containing a promise which resolves with the created tracks &
      * the errors resulting from that process.
@@ -2006,7 +1988,6 @@ export default {
                 logger.debug('_onDeviceListChanged: Removed the current video track.');
             }
         }
-
         // When the local audio is muted and a preferred device is connected, update the settings and remove the track
         // from the conference. A new track will be created and replaced when the user unmutes their mic.
         if (requestedInput.audio && this.isLocalAudioMuted()) {
@@ -2015,14 +1996,12 @@ export default {
             }));
             requestedInput.audio = false;
             delete newDevices.audioinput;
-
             // Remove the track from the conference.
             if (localAudio) {
                 await this.useAudioStream(null);
                 logger.debug('_onDeviceListChanged: Removed the current audio track.');
             }
         }
-
         // Create the tracks and replace them only if the user is unmuted.
         if (requestedInput.audio || requestedInput.video) {
             let tracks = [];

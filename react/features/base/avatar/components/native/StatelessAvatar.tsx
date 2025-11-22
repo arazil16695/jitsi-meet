@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Image, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { SvgUri } from 'react-native-svg';
 
 import Icon from '../../../icons/components/Icon';
 import { StyleType } from '../../../styles/functions.native';
@@ -12,45 +13,17 @@ import styles from './styles';
 const DEFAULT_AVATAR = require('../../../../../../images/avatar.png');
 
 interface IProps extends IAvatarProps {
-
-    /**
-     * One of the expected status strings (e.g. 'available') to render a badge on the avatar, if necessary.
-     */
     status?: string;
-
-    /**
-     * External style passed to the component.
-     */
     style?: StyleType;
-
-    /**
-     * The URL of the avatar to render.
-     */
     url?: string;
 }
 
-/**
- * Implements a stateless avatar component that renders an avatar purely from what gets passed through
- * props.
- */
 export default class StatelessAvatar extends Component<IProps> {
-
-    /**
-     * Instantiates a new {@code Component}.
-     *
-     * @inheritdoc
-     */
     constructor(props: IProps) {
         super(props);
-
         this._onAvatarLoadError = this._onAvatarLoadError.bind(this);
     }
 
-    /**
-     * Implements {@code Component#render}.
-     *
-     * @inheritdoc
-     */
     override render() {
         const { initials, size, style, url } = this.props;
 
@@ -68,23 +41,14 @@ export default class StatelessAvatar extends Component<IProps> {
 
         return (
             <View>
-                <View
-                    style = { [
-                        styles.avatarContainer(size) as ViewStyle,
-                        style
-                    ] }>
-                    { avatar }
+                <View style={[styles.avatarContainer(size) as ViewStyle, style]}>
+                    {avatar}
                 </View>
-                { this._renderAvatarStatus() }
+                {this._renderAvatarStatus()}
             </View>
         );
     }
 
-    /**
-     * Renders a badge representing the avatar status.
-     *
-     * @returns {React$Elementaa}
-     */
     _renderAvatarStatus() {
         const { size, status } = this.props;
 
@@ -93,100 +57,76 @@ export default class StatelessAvatar extends Component<IProps> {
         }
 
         return (
-            <View style = { styles.badgeContainer }>
-                <View style = { styles.badge(size, status) as ViewStyle } />
+            <View style={styles.badgeContainer}>
+                <View style={styles.badge(size, status) as ViewStyle} />
             </View>
         );
     }
 
-    /**
-     * Renders the default avatar.
-     *
-     * @returns {React$Element<*>}
-     */
     _renderDefaultAvatar() {
         const { size } = this.props;
 
         return (
             <Image
-                source = { DEFAULT_AVATAR }
-                style = { [
-                    styles.avatarContent(size),
-                    styles.staticAvatar
-                ] } />
+                source={DEFAULT_AVATAR}
+                style={[styles.avatarContent(size), styles.staticAvatar]}
+            />
         );
     }
 
-    /**
-     * Renders the icon avatar.
-     *
-     * @param {Object} icon - The icon component to render.
-     * @returns {React$Element<*>}
-     */
     _renderIconAvatar(icon: Function) {
         const { color, size } = this.props;
 
         return (
             <View
-                style = { [
+                style={[
                     styles.initialsContainer as ViewStyle,
-                    {
-                        backgroundColor: color
-                    }
-                ] }>
-                <Icon
-                    src = { icon }
-                    style = { styles.initialsText(size) } />
+                    { backgroundColor: color }
+                ]}>
+                <Icon src={icon} style={styles.initialsText(size)} />
             </View>
         );
     }
 
-    /**
-     * Renders the initials-based avatar.
-     *
-     * @returns {React$Element<*>}
-     */
     _renderInitialsAvatar() {
         const { color, initials, size } = this.props;
 
         return (
             <View
-                style = { [
+                style={[
                     styles.initialsContainer as ViewStyle,
-                    {
-                        backgroundColor: color
-                    }
-                ] }>
-                <Text style = { styles.initialsText(size) as TextStyle }> { initials } </Text>
+                    { backgroundColor: color }
+                ]}>
+                <Text style={styles.initialsText(size) as TextStyle}>{initials}</Text>
             </View>
         );
     }
-
     /**
-     * Renders the url-based avatar.
-     *
-     * @returns {React$Element<*>}
+     * 🔥 UPDATED: support SVG on React-Native
      */
     _renderURLAvatar() {
-        const { onAvatarLoadError, size, url } = this.props;
-
+    const { size, url } = this.props;
+    // 🔵 SVG support for React-Native
+    if (url && url.endsWith('.svg')) {
         return (
-            <Image
-                defaultSource = { DEFAULT_AVATAR }
-
-                // @ts-ignore
-                onError = { onAvatarLoadError }
-                resizeMode = 'cover'
-                source = {{ uri: url }}
-                style = { styles.avatarContent(size) } />
+            <SvgUri
+                width={size}
+                height={size}
+                uri={url}
+            />
         );
     }
-
-    /**
-     * Handles avatar load errors.
-     *
-     * @returns {void}
-     */
+    // 🟩 PNG/JPG/WebP fallback
+    return (
+        <Image
+            defaultSource={DEFAULT_AVATAR}
+            onError={() => this._onAvatarLoadError()}
+            resizeMode='cover'
+            source={{ uri: url }}
+            style={styles.avatarContent(size)}
+        />
+    );
+}
     _onAvatarLoadError() {
         const { onAvatarLoadError, onAvatarLoadErrorParams = {} } = this.props;
 
