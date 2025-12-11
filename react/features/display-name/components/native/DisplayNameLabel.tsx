@@ -53,10 +53,15 @@ class DisplayNameLabel extends React.Component<IProps> {
                 style = { (this.props.contained ? styles.displayNamePadding : styles.displayNameBackdrop
                 ) as ViewStyle }>
                 <Text
-                    numberOfLines = { 1 }
-                    style = { styles.displayNameText as TextStyle }>
-                    { this.props._participantName }
+                numberOfLines={1}
+                style={styles.displayNameText as TextStyle}>
+                {
+                    this.props._participantName?.includes('~')
+                    ? this.props._participantName.split('~')[0]
+                    : this.props._participantName
+                }
                 </Text>
+
             </View>
         );
     }

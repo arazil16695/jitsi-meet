@@ -26,10 +26,15 @@ class ChatButton extends AbstractButton<IProps> {
     override toggledIcon = IconChatUnread;
     override _handleClick() {
         const names = this.props.participantNames;
-        const formatted = names.length
-        ? names.join(',')
+        // Split each name on "~" and take index 1
+        const extractedNames = names.map(n =>
+            n?.includes('~') ? n.split('~')[1] : n
+        );
+        // Format output
+        const formatted = extractedNames.length
+        ? extractedNames.join(',')
         : 'No participants found';
-        LogBridge.jitsiEvent('ReactNativeJS Chat-/['+formatted+']');
+        LogBridge.jitsiEvent('ReactNativeJS Chat-/[' + formatted + ']');
     }
     override _isToggled() {
         return Boolean(this.props._unreadMessageCount);

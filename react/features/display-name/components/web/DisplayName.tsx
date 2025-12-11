@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
-
 import { IReduxState } from '../../../app/types';
 import {
     getParticipantById,
@@ -13,39 +12,32 @@ import { withPixelLineHeight } from '../../../base/styles/functions.web';
 import Tooltip from '../../../base/tooltip/components/Tooltip';
 import { getIndicatorsTooltipPosition } from '../../../filmstrip/functions.web';
 import { appendSuffix } from '../../functions';
-
 /**
  * The type of the React {@code Component} props of {@link DisplayName}.
  */
 interface IProps {
-
     /**
      * Whether or not the display name should be editable on click.
      */
     allowEditing: boolean;
-
     /**
      * A string to append to the displayName, if provided.
      */
     displayNameSuffix: string;
-
     /**
      * The ID attribute to add to the component. Useful for global querying for
      * the component by legacy components and torture tests.
      */
     elementID: string;
-
     /**
      * The ID of the participant whose name is being displayed.
      */
     participantID: string;
-
     /**
      * The type of thumbnail.
      */
     thumbnailType?: string;
 }
-
 const useStyles = makeStyles()(theme => {
     return {
         displayName: {
@@ -55,7 +47,6 @@ const useStyles = makeStyles()(theme => {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
         },
-
         editDisplayName: {
             outline: 'none',
             border: 'none',
@@ -67,7 +58,6 @@ const useStyles = makeStyles()(theme => {
         }
     };
 });
-
 const DisplayName = ({
     allowEditing,
     displayNameSuffix,
@@ -84,21 +74,17 @@ const DisplayName = ({
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const nameInputRef = useRef<HTMLInputElement | null>(null);
-
     useEffect(() => {
         if (isEditing && nameInputRef.current) {
             nameInputRef.current.select();
         }
     }, [ isEditing ]);
-
     const onClick = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
     }, []);
-
     const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEditDisplayNameValue(event.target.value);
     }, []);
-
     const onSubmit = useCallback(() => {
         dispatch(updateSettings({
             displayName: editDisplayNameValue
@@ -108,13 +94,11 @@ const DisplayName = ({
         setIsEditing(false);
         nameInputRef.current = null;
     }, [ editDisplayNameValue, nameInputRef ]);
-
     const onKeyDown = useCallback((event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             onSubmit();
         }
     }, [ onSubmit ]);
-
     const onStartEditing = useCallback((e: React.MouseEvent) => {
         if (allowEditing) {
             e.stopPropagation();
@@ -122,7 +106,6 @@ const DisplayName = ({
             setEditDisplayNameValue(configuredDisplayName);
         }
     }, [ allowEditing ]);
-
     if (allowEditing && isEditing) {
         return (
             <input
@@ -140,7 +123,6 @@ const DisplayName = ({
                 value = { editDisplayNameValue } />
         );
     }
-
     return (
         <Tooltip
             content = { appendSuffix(nameToDisplay, displayNameSuffix) }
@@ -154,6 +136,4 @@ const DisplayName = ({
         </Tooltip>
     );
 };
-
-
 export default DisplayName;

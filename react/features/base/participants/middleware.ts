@@ -831,7 +831,7 @@ function _raiseHandUpdated({ dispatch, getState }: IStore, conference: IJitsiCon
 
     const isModerator = isLocalParticipantModerator(state);
     const participant = getParticipantById(state, participantId);
-    const participantName = getParticipantDisplayName(state, participantId);
+    const participantName = "getParticipantDisplayName(state, participantId)";
 
     let shouldDisplayAllowAudio = false;
     let shouldDisplayAllowVideo = false;

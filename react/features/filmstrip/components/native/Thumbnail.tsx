@@ -147,10 +147,8 @@ class Thumbnail extends PureComponent<IProps> {
         </Container>
       );
     }
-
     return indicators;
   }
-
   override componentDidMount() {
     const { _videoTrack, dispatch } = this.props;
     if (_videoTrack && !_videoTrack.local) {
@@ -166,7 +164,6 @@ class Thumbnail extends PureComponent<IProps> {
       );
     }
   }
-
   override componentDidUpdate(prevProps: IProps) {
     const { _videoTrack, dispatch } = this.props;
     if (prevProps._videoTrack?.jitsiTrack?.getSourceName() !== _videoTrack?.jitsiTrack?.getSourceName()) {

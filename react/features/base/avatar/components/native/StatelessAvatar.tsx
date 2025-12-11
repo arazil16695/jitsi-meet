@@ -1,34 +1,26 @@
 import React, { Component } from 'react';
 import { Image, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { SvgUri } from 'react-native-svg';
-
 import Icon from '../../../icons/components/Icon';
 import { StyleType } from '../../../styles/functions.native';
 import { isIcon } from '../../functions';
 import { IAvatarProps } from '../../types';
-
 import styles from './styles';
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const DEFAULT_AVATAR = require('../../../../../../images/avatar.png');
-
 interface IProps extends IAvatarProps {
     status?: string;
     style?: StyleType;
     url?: string;
 }
-
 export default class StatelessAvatar extends Component<IProps> {
     constructor(props: IProps) {
         super(props);
         this._onAvatarLoadError = this._onAvatarLoadError.bind(this);
     }
-
     override render() {
         const { initials, size, style, url } = this.props;
-
         let avatar;
-
         if (isIcon(url)) {
             avatar = this._renderIconAvatar(url);
         } else if (url) {
@@ -38,7 +30,6 @@ export default class StatelessAvatar extends Component<IProps> {
         } else {
             avatar = this._renderDefaultAvatar();
         }
-
         return (
             <View>
                 <View style={[styles.avatarContainer(size) as ViewStyle, style]}>
@@ -48,24 +39,19 @@ export default class StatelessAvatar extends Component<IProps> {
             </View>
         );
     }
-
     _renderAvatarStatus() {
         const { size, status } = this.props;
-
         if (!status) {
             return null;
         }
-
         return (
             <View style={styles.badgeContainer}>
                 <View style={styles.badge(size, status) as ViewStyle} />
             </View>
         );
     }
-
     _renderDefaultAvatar() {
         const { size } = this.props;
-
         return (
             <Image
                 source={DEFAULT_AVATAR}
@@ -73,10 +59,8 @@ export default class StatelessAvatar extends Component<IProps> {
             />
         );
     }
-
     _renderIconAvatar(icon: Function) {
         const { color, size } = this.props;
-
         return (
             <View
                 style={[
@@ -87,10 +71,8 @@ export default class StatelessAvatar extends Component<IProps> {
             </View>
         );
     }
-
     _renderInitialsAvatar() {
         const { color, initials, size } = this.props;
-
         return (
             <View
                 style={[
@@ -129,7 +111,6 @@ export default class StatelessAvatar extends Component<IProps> {
 }
     _onAvatarLoadError() {
         const { onAvatarLoadError, onAvatarLoadErrorParams = {} } = this.props;
-
         if (onAvatarLoadError) {
             onAvatarLoadError({
                 ...onAvatarLoadErrorParams,

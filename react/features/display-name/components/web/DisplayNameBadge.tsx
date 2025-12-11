@@ -31,7 +31,7 @@ const DisplayNameBadge: React.FC<{ name: string; }> = ({ name }) => {
 
     return (
         <div className = { classes.badge }>
-            { name }
+            { name.split("/")[0] }
         </div>
     );
 };

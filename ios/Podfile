@@ -1,22 +1,24 @@
-# Use GitHub CocoaPods Specs instead of CDN to avoid HTTP2 framing issues
+# Use GitHub CocoaPods Specs instead of CDN
 source 'https://github.com/CocoaPods/Specs.git'
 
-
-# Resolve react_native_pods.rb with node to allow for hoisting.
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
     "react-native/scripts/react_native_pods.rb",
     {paths: [process.argv[1]]},
   )', __dir__]).strip
+
 platform :ios, '15.1'
 workspace 'jitsi-meet'
 
 install! 'cocoapods', :deterministic_uuids => false
 
 def cocoa_utilities
-    pod 'CocoaLumberjack', '3.7.4'
+  pod 'CocoaLumberjack', '3.7.4'
 end
 
+### --------------------------------------------
+### MAIN APP TARGET
+### --------------------------------------------
 target 'JitsiMeet' do
   project 'app/app.xcodeproj'
 
@@ -24,17 +26,22 @@ target 'JitsiMeet' do
   pod 'Firebase/Crashlytics', '~> 8.0'
 end
 
+### --------------------------------------------
+### SDK TARGET
+### --------------------------------------------
 target 'JitsiMeetSDK' do
   project 'sdk/sdk.xcodeproj'
 
   config = use_native_modules!
   flags = get_default_flags()
+
+  # Important: Disable auto-linking of @jitsi/react-native-sdk
   use_react_native!(
     :path => config[:reactNativePath],
     :hermes_enabled => true,
     :fabric_enabled => false,
     :new_arch_enabled => false,
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
   )
 
   pod 'giphy-react-native-sdk', :path => '../node_modules/@giphy/react-native-sdk'
@@ -55,12 +62,15 @@ target 'JitsiMeetSDKLite' do
     :hermes_enabled => true,
     :fabric_enabled => false,
     :new_arch_enabled => false,
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
   )
 
   cocoa_utilities
 end
 
+### --------------------------------------------
+### POST INSTALL FIXES
+### --------------------------------------------
 post_install do |installer|
   react_native_post_install(
     installer,
@@ -68,8 +78,14 @@ post_install do |installer|
     :mac_catalyst_enabled => false,
   )
 
+  # REMOVE jitsi-meet-rnsdk from this list completely
+  excluded_targets = [
+    'GoogleSignIn', 'GTMSessionFetcher', 'AppAuth',
+    'CocoaLumberjack', 'RNCAsyncStorage'
+  ]
+
   installer.pods_project.targets.each do |target|
-    if ['GoogleSignIn', 'GTMSessionFetcher', 'AppAuth', 'CocoaLumberjack', 'RNCAsyncStorage', 'jitsi-meet-rnsdk'].include? target.name
+    if excluded_targets.include? target.name
       target.build_configurations.each do |config|
         config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
       end

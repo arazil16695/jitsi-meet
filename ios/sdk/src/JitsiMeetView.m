@@ -23,6 +23,7 @@
 #import "JitsiMeetView+Private.h"
 #import "ReactUtils.h"
 #import "RNRootView.h"
+//#import "JMCallKitProxy.h"
 #pragma mark UIColor helpers
 
 @interface UIColor (Hex)
@@ -60,13 +61,13 @@ static NSString *const PiPEnabledFeatureFlag = @"pip.enabled";
  */
 static NSString *recordingModeToString(RecordingMode mode);
 
-
 @implementation JitsiMeetView {
     /**
      * React Native view where the entire content will be rendered.
      */
     RNRootView *rootView;
 }
+
 
 #pragma mark Initializers
 
@@ -110,6 +111,18 @@ static NSString *recordingModeToString(RecordingMode mode);
 - (void)join:(JitsiMeetConferenceOptions *)options {
     [self setProps:options == nil ? @{} : [options asProps]];
 }
+
+//- (void)setCallKitName:(NSString *)name {
+//    NSUUID *uuid = [JMCallKitProxy currentCallUUID];
+//    [JMCallKitProxy setEnabled:YES];
+//    [JMCallKitProxy reportCallUpdateWith:uuid
+//                                  handle:@"jitsi"
+//                             displayName:name
+//                                hasVideo:YES];
+//    NSLog(@"CallKit name main function %@", uuid);
+//    NSLog(@"CallKit name main function %@", uuid);
+//    NSLog(@"CallKit name changed to %@", name);
+//}
 
 - (void)leave {
     [self setProps:@{}];
@@ -222,6 +235,7 @@ static NSString *recordingModeToString(RecordingMode mode);
         [self.delegate performSelector:sel withObject:eventData];
     }
 }
+
 
 - (void)handleJitsiEventNotification:(NSNotification *)notification {
     NSDictionary *data = notification.userInfo;
