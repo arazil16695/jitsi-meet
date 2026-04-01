@@ -1849,10 +1849,13 @@ PODS:
     - RNSound/Core (= 0.11.2)
   - RNSound/Core (0.11.2):
     - React-Core
-  - RNSVG (15.15.0):
+  - RNSVG (15.15.1):
     - React-Core
   - RNWatch (1.1.0):
     - React
+  - SDWebImage/Core (5.21.5)
+  - SDWebImageSVGCoder (1.8.0):
+    - SDWebImage/Core (~> 5.6)
   - SocketRocket (0.7.1)
   - SplashView (0.0.18):
     - DoubleConversion
@@ -1975,6 +1978,7 @@ DEPENDENCIES:
   - RNSound (from `../node_modules/react-native-sound`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNWatch (from `../node_modules/react-native-watch-connectivity`)
+  - SDWebImageSVGCoder
   - SplashView (from `../node_modules/react-native-splash-view`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -2000,6 +2004,8 @@ SPEC REPOS:
     - nanopb
     - ObjectiveDropboxOfficial
     - PromisesObjC
+    - SDWebImage
+    - SDWebImageSVGCoder
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -2301,12 +2307,14 @@ SPEC CHECKSUMS:
   RNGoogleSignin: 30e1aee80140dc0706cd78a4951c411376c88329
   RNScreens: 9ef996b6041d0960a4794a845f7d0808b171b4ef
   RNSound: 314cc5226453ef4a3314a196c65e8a65e5106a7b
-  RNSVG: 9ab4e94ba9463cee4775dd3bb7471098e9247b83
+  RNSVG: cf7f8fc016b4bae36807dcd8edfa24a16665bca8
   RNWatch: 28fe1f5e0c6410d45fd20925f4796fce05522e3f
+  SDWebImage: e9c98383c7572d713c1a0d7dd2783b10599b9838
+  SDWebImageSVGCoder: 8e10c8f6cc879c7dfb317b284e13dd589379f01c
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SplashView: ed71a114c3ffe60dc3a9e5aa2cefb352c3794a70
   Yoga: 31a098f74c16780569aebd614a0f37a907de0189
 
-PODFILE CHECKSUM: c211ed5aeabf92f1500afbbcc1498450f5e74c67
+PODFILE CHECKSUM: aa3f6995522378eed8b862b7df401c695b084f30
 
 COCOAPODS: 1.16.2

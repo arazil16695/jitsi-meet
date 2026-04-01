@@ -24,6 +24,15 @@ import logger from './logger';
  */
 const _updateLastN = debounce(({ dispatch, getState }: IStore) => {
     const state = getState();
+    const { appState } = state['features/mobile/background'] || {};
+    const isReactNative = navigator.product === 'ReactNative';
+
+    // 🔥 HARD OVERRIDE:
+    // React Native in foreground must NEVER limit video
+    if (isReactNative && appState === 'active') {
+        dispatch(setLastN(-1));
+        return;
+    }
     const { conference } = state['features/base/conference'];
 
     if (!conference) {
@@ -33,10 +42,8 @@ const _updateLastN = debounce(({ dispatch, getState }: IStore) => {
     }
 
     const { enabled: audioOnly } = state['features/base/audio-only'];
-    const { appState } = state['features/mobile/background'] || {};
     const { enabled: filmStripEnabled } = state['features/filmstrip'];
     const config = state['features/base/config'];
-    const { carMode } = state['features/video-layout'];
     // Select the (initial) lastN value based on the following preference order.
     // 1. The last-n value from 'startLastN' if it is specified in config.js
     // 2. The last-n value from 'channelLastN' if specified in config.js.

@@ -59,9 +59,14 @@ import LonelyMeetingExperience from './LonelyMeetingExperience';
 import TitleBar from './TitleBar';
 import { EXPANDED_LABEL_TIMEOUT } from './constants';
 import styles from './styles';
+import {
+    getRemoteParticipants,
+    getParticipantDisplayName
+} from '../../../base/participants/functions';
 /**
 * The type of the React {@code Component} props of {@link Conference}.
 */
+const {LogBridge} = NativeModules;
 interface IProps extends AbstractProps {
     _aspectRatio: Symbol;
     _audioOnlyEnabled: boolean;
@@ -84,6 +89,7 @@ interface IProps extends AbstractProps {
     navigation: any;
     _participantCount: number;
     _localParticipantId: string;
+    participantNames: string[];
 }
 type State = {
     visibleExpandedLabel?: string;
@@ -92,14 +98,14 @@ class Conference extends AbstractConference<IProps, State> {
     _expandedLabelTimeout: any;
     _hardwareBackPressSubscription: any;
     _autoHideTimer: any;
- 
+    participantFetchInterval: any;
     constructor(props: IProps) {
         super(props);
  
         this.state = {
             visibleExpandedLabel: undefined
         };
- 
+    
         this._expandedLabelTimeout = React.createRef<number>();
         this._autoHideTimer = null;
  
@@ -115,7 +121,8 @@ class Conference extends AbstractConference<IProps, State> {
             _startCarMode,
             navigation
         } = this.props;
- 
+
+        this.startParticipantTimer();
         this._hardwareBackPressSubscription = BackHandler.addEventListener('hardwareBackPress', this._onHardwareBackPress);
  
         if (_audioOnlyEnabled && _startCarMode) {
@@ -132,6 +139,7 @@ class Conference extends AbstractConference<IProps, State> {
         this._hardwareBackPressSubscription?.remove();
         clearTimeout(this._expandedLabelTimeout.current ?? 0);
         clearTimeout(this._autoHideTimer);
+        this.stopParticipantTimer();
     }
     override render() {
         const { _brandingStyles, _fullscreenEnabled } = this.props;
@@ -159,7 +167,6 @@ class Conference extends AbstractConference<IProps, State> {
         const { _toolboxVisible } = this.props;
         console.log('Toggling toolbox visibility: ', !_toolboxVisible); // Debugging log
         this._setToolboxVisible(!_toolboxVisible);
- 
         if (!_toolboxVisible) {
             this._startAutoHideTimer();
         } else {
@@ -202,6 +209,29 @@ class Conference extends AbstractConference<IProps, State> {
                 }, EXPANDED_LABEL_TIMEOUT);
             }
         };
+    }
+    startParticipantTimer() {
+        console.log('Starting to fetch participants periodically...');
+        // Fetch participants every 2 seconds
+        this.participantFetchInterval = setInterval(() => {
+            const names = this.props.participantNames;
+        // Split each name on "~" and take index 1
+            const extractedNames = names.map(n =>
+                n?.includes('~') ? n.split('~')[1] : n
+            );
+        // Format output
+            const formatted = extractedNames.length
+                ? extractedNames.join(',')
+                : 'No participants found';
+            LogBridge.jitsiEvent('ReactJs Participants-/[' + formatted + ']');
+        }, 2000);
+    }
+    stopParticipantTimer() {
+        if (this.participantFetchInterval) {
+            clearInterval(this.participantFetchInterval);
+            this.participantFetchInterval = null;
+            console.log('Participant fetching stopped.');
+        }
     }
     _renderContent() {
         const {
@@ -367,6 +397,21 @@ function _mapStateToProps(state: IReduxState, _ownProps: any) {
     const { startCarMode } = state['features/base/settings'];
     const { enabled: audioOnlyEnabled } = state['features/base/audio-only'];
     const brandingStyles = backgroundColor ? { backgroundColor } : undefined;
+    const base = state['features/base/participants'];
+    const film = state['features/filmstrip'];
+    const local = base.local ? [base.local] : [];
+    const remoteIDs = Array.isArray(film.remoteParticipants)
+        ? film.remoteParticipants
+        : [];
+    const remoteObjects = remoteIDs
+        .map(id => base.remote?.get(id))
+        .filter(Boolean);
+    const participants = [...local, ...remoteObjects];
+    const participantNames = participants.map((p: any) =>
+        typeof p.name === 'string' && p.name.trim().length > 0
+            ? p.name
+            : ''
+    );
     return {
         ...abstractMapStateToProps(state),
         /** YOUR NEW LINES BELOW **/
@@ -386,7 +431,8 @@ function _mapStateToProps(state: IReduxState, _ownProps: any) {
         _reducedUI: reducedUI,
         _showLobby: getIsLobbyVisible(state),
         _startCarMode: startCarMode,
-        _toolboxVisible: isToolboxVisible(state)
+        _toolboxVisible: isToolboxVisible(state),
+        participantNames
     };
 }
  

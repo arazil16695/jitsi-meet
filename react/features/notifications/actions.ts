@@ -1,11 +1,9 @@
 import { throttle } from 'lodash-es';
-
 import { IStore } from '../app/types';
 import { IConfig } from '../base/config/configType';
 import { NOTIFICATIONS_ENABLED } from '../base/flags/constants';
 import { getFeatureFlag } from '../base/flags/functions';
 import { getParticipantCount } from '../base/participants/functions';
-
 import {
     CLEAR_NOTIFICATIONS,
     HIDE_NOTIFICATION,
@@ -21,7 +19,6 @@ import {
     SILENT_LEFT_THRESHOLD
 } from './constants';
 import { INotificationProps } from './types';
-
 /**
  * Function that returns notification timeout value based on notification timeout type.
  *
@@ -41,10 +38,8 @@ function getNotificationTimeout(type?: string, notificationTimeouts?: IConfig['n
     } else if (type === NOTIFICATION_TIMEOUT_TYPE.STICKY) {
         return notificationTimeouts?.sticky ?? NOTIFICATION_TIMEOUT.STICKY;
     }
-
     return 0;
 }
-
 /**
  * Clears (removes) all the notifications.
  *
@@ -57,7 +52,6 @@ export function clearNotifications() {
         type: CLEAR_NOTIFICATIONS
     };
 }
-
 /**
  * Removes the notification with the passed in id.
  *
@@ -74,7 +68,6 @@ export function hideNotification(uid: string) {
         uid
     };
 }
-
 /**
  * Stops notifications from being displayed.
  *
@@ -90,7 +83,6 @@ export function setNotificationsEnabled(enabled: boolean) {
         enabled
     };
 }
-
 /**
  * Queues an error notification for display.
  *
@@ -104,7 +96,6 @@ export function showErrorNotification(props: INotificationProps, type = NOTIFICA
         appearance: NOTIFICATION_TYPE.ERROR
     }, type);
 }
-
 /**
  * Queues a success notification for display.
  *
@@ -118,7 +109,6 @@ export function showSuccessNotification(props: INotificationProps, type?: string
         appearance: NOTIFICATION_TYPE.SUCCESS
     }, type);
 }
-
 /**
  * Queues a notification for display.
  *
@@ -130,9 +120,7 @@ export function showNotification(props: INotificationProps = {}, type?: string) 
     return function(dispatch: IStore['dispatch'], getState: IStore['getState']) {
         const { disabledNotifications = [], notifications, notificationTimeouts } = getState()['features/base/config'];
         const enabledFlag = getFeatureFlag(getState(), NOTIFICATIONS_ENABLED, true);
-
         const { descriptionKey, titleKey } = props;
-
         const shouldDisplay = enabledFlag
             && !(disabledNotifications.includes(descriptionKey ?? '')
                 || disabledNotifications.includes(titleKey ?? ''))
@@ -143,7 +131,6 @@ export function showNotification(props: INotificationProps = {}, type?: string) 
         if (typeof APP !== 'undefined') {
             APP.API.notifyNotificationTriggered(titleKey, descriptionKey);
         }
-
         if (shouldDisplay) {
             return dispatch({
                 type: SHOW_NOTIFICATION,
@@ -154,7 +141,6 @@ export function showNotification(props: INotificationProps = {}, type?: string) 
         }
     };
 }
-
 /**
  * Queues a warning notification for display.
  *
@@ -163,13 +149,11 @@ export function showNotification(props: INotificationProps = {}, type?: string) 
  * @returns {Object}
  */
 export function showWarningNotification(props: INotificationProps, type?: string) {
-
     return showNotification({
         ...props,
         appearance: NOTIFICATION_TYPE.WARNING
     }, type);
 }
-
 /**
  * Queues a message notification for display.
  *
@@ -219,27 +203,27 @@ const _throttledNotifyParticipantConnected = throttle((dispatch: IStore['dispatc
     let notificationProps;
 
     if (joinedParticipantsCount >= 3) {
-        notificationProps = {
-            titleArguments: {
-                name: joinedParticipantsNames[0]
-            },
-            titleKey: 'notify.connectedThreePlusMembers'
-        };
+        // notificationProps = {
+        //     titleArguments: {
+        //         name: joinedParticipantsNames[0]
+        //     },
+        //     titleKey: 'notify.connectedThreePlusMembers'
+        // };
     } else if (joinedParticipantsCount === 2) {
-        notificationProps = {
-            titleArguments: {
-                first: joinedParticipantsNames[0],
-                second: joinedParticipantsNames[1]
-            },
-            titleKey: 'notify.connectedTwoMembers'
-        };
+        // notificationProps = {
+        //     titleArguments: {
+        //         first: joinedParticipantsNames[0],
+        //         second: joinedParticipantsNames[1]
+        //     },
+        //     titleKey: 'notify.connectedTwoMembers'
+        // };
     } else if (joinedParticipantsCount) {
-        notificationProps = {
-            titleArguments: {
-                name: joinedParticipantsNames[0]
-            },
-            titleKey: 'notify.connectedOneMember'
-        };
+        // notificationProps = {
+        //     titleArguments: {
+        //         name: joinedParticipantsNames[0]
+        //     },
+        //     titleKey: 'notify.connectedOneMember'
+        // };
     }
 
     if (notificationProps) {
@@ -270,51 +254,42 @@ let leftParticipantsNames: string[] = [];
  */
 const _throttledNotifyParticipantLeft = throttle((dispatch: IStore['dispatch'], getState: IStore['getState']) => {
     const participantCount = getParticipantCount(getState());
-
     // Skip left notifications altogether for large meetings.
     if (participantCount > SILENT_LEFT_THRESHOLD) {
         leftParticipantsNames = [];
-
         return;
     }
-
     const leftParticipantsCount = leftParticipantsNames.length;
-
     let notificationProps;
-
     if (leftParticipantsCount >= 3) {
-        notificationProps = {
-            titleArguments: {
-                name: leftParticipantsNames[0]
-            },
-            titleKey: 'notify.leftThreePlusMembers'
-        };
+        // notificationProps = {
+        //     titleArguments: {
+        //         name: leftParticipantsNames[0]
+        //     },
+        //     titleKey: 'notify.leftThreePlusMembers'
+        // };
     } else if (leftParticipantsCount === 2) {
-        notificationProps = {
-            titleArguments: {
-                first: leftParticipantsNames[0],
-                second: leftParticipantsNames[1]
-            },
-            titleKey: 'notify.leftTwoMembers'
-        };
+        // notificationProps = {
+        //     titleArguments: {
+        //         first: leftParticipantsNames[0],
+        //         second: leftParticipantsNames[1]
+        //     },
+        //     titleKey: 'notify.leftTwoMembers'
+        // };
     } else if (leftParticipantsCount) {
-        notificationProps = {
-            titleArguments: {
-                name: leftParticipantsNames[0]
-            },
-            titleKey: 'notify.leftOneMember'
-        };
+        // notificationProps = {
+        //     titleArguments: {
+        //         name: leftParticipantsNames[0]
+        //     },
+        //     titleKey: 'notify.leftOneMember'
+        // };
     }
-
     if (notificationProps) {
         dispatch(
             showNotification(notificationProps, NOTIFICATION_TIMEOUT_TYPE.SHORT));
     }
-
     leftParticipantsNames = [];
-
 }, 2000, { leading: false });
-
 /**
  * Queues the display of a notification of a participant having connected to
  * the meeting. The notifications are batched so that quick consecutive
@@ -325,11 +300,9 @@ const _throttledNotifyParticipantLeft = throttle((dispatch: IStore['dispatch'], 
  */
 export function showParticipantJoinedNotification(displayName: string) {
     joinedParticipantsNames.push(displayName);
-
     return (dispatch: IStore['dispatch'], getState: IStore['getState']) =>
         _throttledNotifyParticipantConnected(dispatch, getState);
 }
-
 /**
  * Queues the display of a notification of a participant having left to
  * the meeting. The notifications are batched so that quick consecutive
@@ -340,7 +313,6 @@ export function showParticipantJoinedNotification(displayName: string) {
  */
 export function showParticipantLeftNotification(displayName: string) {
     leftParticipantsNames.push(displayName);
-
     return (dispatch: IStore['dispatch'], getState: IStore['getState']) =>
         _throttledNotifyParticipantLeft(dispatch, getState);
 }

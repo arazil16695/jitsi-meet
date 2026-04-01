@@ -4,7 +4,7 @@ import { IStore } from '../app/types';
 import { setAudioOnly } from '../base/audio-only/actions';
 import { setVideoMuted } from '../base/media/actions';
 import { VIDEO_MUTISM_AUTHORITY } from '../base/media/constants';
-
+import { NativeModules } from 'react-native';
 import {
     SET_MAIN_TOOLBAR_BUTTONS_THRESHOLDS,
     SET_TOOLBOX_ENABLED,
@@ -14,7 +14,8 @@ import {
 } from './actionTypes';
 import { DUMMY_10_BUTTONS_THRESHOLD_VALUE, DUMMY_9_BUTTONS_THRESHOLD_VALUE } from './constants';
 import { IMainToolbarButtonThresholds, IMainToolbarButtonThresholdsUnfiltered } from './types';
-
+import { JitsiConferenceEvents } from '../base/lib-jitsi-meet';
+const { LogBridge } = NativeModules;
 /**
  * Enables/disables the toolbox.
  *
@@ -89,23 +90,21 @@ export function handleToggleVideoMuted(muted: boolean, showUI: boolean, ensureTr
     return (dispatch: IStore['dispatch'], getState: IStore['getState']) => {
         const state = getState();
         const { enabled: audioOnly } = state['features/base/audio-only'];
-
         sendAnalytics(createToolbarEvent(VIDEO_MUTE, { enable: muted }));
         if (audioOnly) {
             dispatch(setAudioOnly(false));
         }
-
         dispatch(
-            setVideoMuted(
+            setVideoMuted( 
                 muted,
                 VIDEO_MUTISM_AUTHORITY.USER,
                 ensureTrack));
-
+        // JitsiConferenceEvents.setVideoMuted(muted)
         // FIXME: The old conference logic still relies on this event being
         // emitted.
-        typeof APP === 'undefined'
-            || APP.conference.muteVideo(muted, showUI);
-
+        if (typeof globalThis !== 'undefined' && (globalThis as any).APP && (globalThis as any).APP.conference) {
+            (globalThis as any).APP.conference.muteVideo(muted, showUI);
+        }
     };
 }
 

@@ -1,13 +1,13 @@
 import { once } from 'lodash-es';
 import { connect } from 'react-redux';
-
+import { NativeModules } from 'react-native';
 import { createToolbarEvent } from '../../analytics/AnalyticsEvents';
 import { sendAnalytics } from '../../analytics/functions';
 import { leaveConference } from '../../base/conference/actions';
 import { translate } from '../../base/i18n/functions';
 import { IProps as AbstractButtonProps } from '../../base/toolbox/components/AbstractButton';
 import AbstractHangupButton from '../../base/toolbox/components/AbstractHangupButton';
-
+const { LogBridge } = NativeModules;
 /**
  * Component that renders a toolbar button for leaving the current conference.
  *
@@ -30,8 +30,10 @@ class HangupButton extends AbstractHangupButton<AbstractButtonProps> {
         super(props);
 
         this._hangup = once(() => {
+            LogBridge.jitsiEvent('ReactNativeJs Hangup')
             sendAnalytics(createToolbarEvent('hangup'));
             this.props.dispatch(leaveConference());
+            LogBridge.jitsiEvent('ReactNativeJs Hangup')
         });
     }
 

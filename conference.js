@@ -726,8 +726,8 @@ export default {
         }
 
         APP.store.dispatch(setVideoMuted(mute, VIDEO_MUTISM_AUTHORITY.USER, true));
+        room.setLocalParticipantProperty('isVideoMuted', !!mute);
     },
-
     /**
      * Simulates toolbar button click for video mute. Used by shortcuts and API.
      * @param {boolean} [showUI] when set to false will not display any error
@@ -739,8 +739,8 @@ export default {
         const mute = !this.isLocalVideoMuted();
 
         APP.store.dispatch(handleToggleVideoMuted(mute, showUI, ensureTrack));
+        room.setLocalParticipantProperty('isVideoMuted', !!mute);
     },
-
     /**
      * Retrieve list of ids of conference participants (without local user).
      * @returns {string[]}
@@ -748,7 +748,6 @@ export default {
     listMembersIds() {
         return room.getParticipants().map(p => p.getId());
     },
-
     /**
      * Checks whether the participant identified by id is a moderator.
      * @id id to search for participant
@@ -759,7 +758,6 @@ export default {
 
         return user && user.isModerator();
     },
-
     /**
      * Retrieve list of conference participants (without local user).
      * @returns {JitsiParticipant[]}
@@ -769,7 +767,6 @@ export default {
     listMembers() {
         return room.getParticipants();
     },
-
     /**
      * Used by Jibri to detect when it's alone and the meeting should be terminated.
      */
@@ -777,7 +774,6 @@ export default {
         return room.getParticipants()
             .filter(p => !p.isHidden() || !(config.iAmRecorder && p.isHiddenFromRecorder())).length + 1;
     },
-
     /**
      * Get speaker stats that track total dominant speaker time.
      *
@@ -788,7 +784,6 @@ export default {
     getSpeakerStats() {
         return room.getSpeakerStats();
     },
-
     // used by torture currently
     isJoined() {
         return room && room.isJoined();
@@ -796,7 +791,6 @@ export default {
     getConnectionState() {
         return room && room.getConnectionState();
     },
-
     /**
      * Obtains current P2P ICE connection state.
      * @return {string|null} ICE connection state or <tt>null</tt> if there's no
@@ -805,7 +799,6 @@ export default {
     getP2PConnectionState() {
         return room && room.getP2PConnectionState();
     },
-
     /**
      * Starts P2P (for tests only)
      * @private
@@ -818,7 +811,6 @@ export default {
             throw error;
         }
     },
-
     /**
      * Stops P2P (for tests only)
      * @private
@@ -831,7 +823,6 @@ export default {
             throw error;
         }
     },
-
     /**
      * Checks whether or not our connection is currently in interrupted and
      * reconnect attempts are in progress.

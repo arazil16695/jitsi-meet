@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- 
+
 package org.jitsi.meet.sdk;
- 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -25,15 +25,15 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
- 
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
- 
+
 import com.facebook.react.modules.core.PermissionListener;
- 
+
 import org.jitsi.meet.sdk.log.JitsiMeetLogger;
- 
+
 import java.util.HashMap;
 import android.util.Log;
 /**
@@ -48,12 +48,11 @@ import android.util.Log;
 */
 public class JitsiMeetActivity extends AppCompatActivity
     implements JitsiMeetActivityInterface {
- 
     protected static final String TAG = JitsiMeetActivity.class.getSimpleName();
- 
+
     private static final String ACTION_JITSI_MEET_CONFERENCE = "org.jitsi.meet.CONFERENCE";
     private static final String JITSI_MEET_CONFERENCE_OPTIONS = "JitsiMeetConferenceOptions";
- 
+
     private boolean isReadyToClose;
       private final BroadcastReceiver customReceiver = new BroadcastReceiver() {
         @Override
@@ -74,15 +73,15 @@ public class JitsiMeetActivity extends AppCompatActivity
                 onBroadcastReceived(intent);
         }
     };
- 
+
     /**
      * Instance of the {@link JitsiMeetView} which this activity will display.
      */
     private JitsiMeetView jitsiView;
- 
+
     // Helpers for starting the activity
     //
- 
+
     public static void launch(Context context, JitsiMeetConferenceOptions options) {
         Intent intent = new Intent(context, JitsiMeetActivity.class);
         intent.setAction(ACTION_JITSI_MEET_CONFERENCE);
@@ -92,16 +91,16 @@ public class JitsiMeetActivity extends AppCompatActivity
         }
         context.startActivity(intent);
     }
- 
+
     public static void launch(Context context, String url) {
         JitsiMeetConferenceOptions options
             = new JitsiMeetConferenceOptions.Builder().setRoom(url).build();
         launch(context, options);
     }
- 
+
     // Overrides
     //
- 
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -109,11 +108,11 @@ public class JitsiMeetActivity extends AppCompatActivity
         intent.putExtra("newConfig", newConfig);
         this.sendBroadcast(intent);
     }
- 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- 
+
         setContentView(R.layout.activity_jitsi_meet);
         this.jitsiView = findViewById(R.id.jitsiView);
         LocalBroadcastManager.getInstance(this).registerReceiver(customReceiver,
@@ -123,19 +122,19 @@ public class JitsiMeetActivity extends AppCompatActivity
             initialize();
         }
     }
- 
+
     @Override
     public void onResume() {
         super.onResume();
         JitsiMeetActivityDelegate.onHostResume(this);
     }
- 
+
     @Override
     public void onStop() {
         JitsiMeetActivityDelegate.onHostPause(this);
         super.onStop();
     }
- 
+
     @Override
     public void onDestroy() {
         JitsiMeetLogger.i("onDestroy()");
@@ -151,39 +150,39 @@ public class JitsiMeetActivity extends AppCompatActivity
             JitsiMeetLogger.i("onDestroy(): leaving...");
             leave();
         }
- 
+
         this.jitsiView = null;
- 
+
         if (AudioModeModule.useConnectionService()) {
             ConnectionService.abortConnections();
         }
         JitsiMeetOngoingConferenceService.abort(this);
- 
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
- 
+
         JitsiMeetActivityDelegate.onHostDestroy(this);
- 
+
         super.onDestroy();
     }
- 
+
     @Override
     public void finish() {
         if (!isReadyToClose) {
             JitsiMeetLogger.i("finish(): leaving...");
             leave();
         }
- 
+
         JitsiMeetLogger.i("finish(): finishing...");
         super.finish();
     }
- 
+
     // Helper methods
     //
- 
+
     protected JitsiMeetView getJitsiView() {
         return jitsiView;
     }
- 
+
     public void join(@Nullable String url) {
         JitsiMeetConferenceOptions options
             = new JitsiMeetConferenceOptions.Builder()
@@ -191,7 +190,7 @@ public class JitsiMeetActivity extends AppCompatActivity
             .build();
         join(options);
     }
- 
+
     public void join(JitsiMeetConferenceOptions options) {
         if (this.jitsiView != null) {
             this.jitsiView.join(options);
@@ -199,7 +198,7 @@ public class JitsiMeetActivity extends AppCompatActivity
             JitsiMeetLogger.w("Cannot join, view is null");
         }
     }
- 
+
     protected void leave() {
         if (this.jitsiView != null) {
             this.jitsiView.abort();
@@ -207,11 +206,10 @@ public class JitsiMeetActivity extends AppCompatActivity
             JitsiMeetLogger.w("Cannot leave, view is null");
         }
     }
- 
     private @Nullable
     JitsiMeetConferenceOptions getConferenceOptions(Intent intent) {
         String action = intent.getAction();
- 
+
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (uri != null) {
@@ -220,10 +218,10 @@ public class JitsiMeetActivity extends AppCompatActivity
         } else if (ACTION_JITSI_MEET_CONFERENCE.equals(action)) {
             return intent.getParcelableExtra(JITSI_MEET_CONFERENCE_OPTIONS);
         }
- 
+
         return null;
     }
- 
+
     /**
      * Helper function called during activity initialization. If {@code true} is returned, the
      * initialization is delayed and the {@link JitsiMeetActivity#initialize()} method is not
@@ -236,27 +234,27 @@ public class JitsiMeetActivity extends AppCompatActivity
     protected boolean extraInitialize() {
         return false;
     }
- 
+
     protected void initialize() {
         // Join the room specified by the URL the app was launched with.
         // Joining without the room option displays the welcome page.
         join(getConferenceOptions(getIntent()));
     }
- 
+
     protected void onConferenceJoined(HashMap<String, Object> extraData) {
         JitsiMeetLogger.i("Conference joined: " + extraData);
         // Launch the service for the ongoing notification.
         JitsiMeetOngoingConferenceService.launch(this, extraData);
     }
- 
+
     protected void onConferenceTerminated(HashMap<String, Object> extraData) {
         JitsiMeetLogger.i("Conference terminated: " + extraData);
     }
- 
+
     protected void onConferenceWillJoin(HashMap<String, Object> extraData) {
         JitsiMeetLogger.i("Conference will join: " + extraData);
     }
- 
+
     protected void onParticipantJoined(HashMap<String, Object> extraData) {
         try {
             JitsiMeetLogger.i("Participant joined: ", extraData);
@@ -264,7 +262,7 @@ public class JitsiMeetActivity extends AppCompatActivity
             JitsiMeetLogger.w("Invalid participant joined extraData", e);
         }
     }
- 
+
     protected void onParticipantLeft(HashMap<String, Object> extraData) {
         try {
             JitsiMeetLogger.i("Participant left: ", extraData);
@@ -284,87 +282,87 @@ public class JitsiMeetActivity extends AppCompatActivity
         isReadyToClose = true;
         finish();
     }
- 
+
 //    protected void onTranscriptionChunkReceived(HashMap<String, Object> extraData) {
 //        JitsiMeetLogger.i("Transcription chunk received: " + extraData);
 //    }
- 
+
 //    protected void onCustomButtonPressed(HashMap<String, Object> extraData) {
 //         JitsiMeetLogger.i("Custom button pressed: " + extraData);
 //     }
- 
+
 //     protected void onConferenceUniqueIdSet(HashMap<String, Object> extraData) {
 //         JitsiMeetLogger.i("Conference unique id set: " + extraData);
 //     }
- 
+
 //     protected void onRecordingStatusChanged(HashMap<String, Object> extraData) {
 //       JitsiMeetLogger.i("Recording status changed: " + extraData);
 //     }
- 
+
     // Activity lifecycle methods
     //
- 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
- 
+
         JitsiMeetActivityDelegate.onActivityResult(this, requestCode, resultCode, data);
     }
- 
+
     @Override
     public void onBackPressed() {
         JitsiMeetActivityDelegate.onBackPressed();
     }
- 
+
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
- 
+
         JitsiMeetConferenceOptions options;
- 
+
         if ((options = getConferenceOptions(intent)) != null) {
             join(options);
             return;
         }
- 
+
         JitsiMeetActivityDelegate.onNewIntent(intent);
     }
- 
+
     @Override
     protected void onUserLeaveHint() {
         if (this.jitsiView != null) {
             this.jitsiView.enterPictureInPicture();
         }
     }
- 
+
     // JitsiMeetActivityInterface
     //
- 
+
     @Override
     public void requestPermissions(String[] permissions, int requestCode, PermissionListener listener) {
         JitsiMeetActivityDelegate.requestPermissions(this, permissions, requestCode, listener);
     }
- 
+
     @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         JitsiMeetActivityDelegate.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
- 
+
     private void registerForBroadcastMessages() {
         IntentFilter intentFilter = new IntentFilter();
- 
+
         for (BroadcastEvent.Type type : BroadcastEvent.Type.values()) {
             intentFilter.addAction(type.getAction());
         }
- 
+
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, intentFilter);
     }
- 
+
     private void onBroadcastReceived(Intent intent) {
         if (intent != null) {
             BroadcastEvent event = new BroadcastEvent(intent);
- 
+
             switch (event.getType()) {
                 case CONFERENCE_JOINED:
                     onConferenceJoined(event.getData());
@@ -400,4 +398,3 @@ public class JitsiMeetActivity extends AppCompatActivity
         }
     }
 }
- 

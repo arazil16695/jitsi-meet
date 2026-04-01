@@ -1,6 +1,8 @@
 import UIKit
 import Firebase
 import JitsiMeetSDK
+import SDWebImage
+import SDWebImageSVGCoder
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             builder.setFeatureFlag("ios.screensharing.enabled", withBoolean: true)
             builder.setFeatureFlag("ios.recording.enabled", withBoolean: true)
         }
-
+z
         jitsiMeet.application(application, didFinishLaunchingWithOptions: launchOptions ?? [:])
 
         if self.appContainsRealServiceInfoPlist() {
@@ -40,7 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         jitsiMeet.showSplashScreen()
 
         self.window?.makeKeyAndVisible()
-
+        let svgCoder = SDWebImageSVGCoder.shared
+        SDWebImageCodersManager.shared.addCoder(svgCoder)
         return true
     }
 

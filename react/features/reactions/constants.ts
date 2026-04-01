@@ -135,52 +135,66 @@ interface IReactions {
 }
 
 export const REACTIONS: IReactions = {
-    like: {
-        message: ':thumbs_up:',
+    ok: {
+        message: ':ok:',
         emoji: '👍',
         shortcutChar: 'T',
         soundId: LIKE_SOUND_ID,
         soundFiles: LIKE_SOUND_FILES
     },
-    clap: {
-        message: ':clap:',
+    clapping: {
+        message: ':clapping:',
         emoji: '👏',
         shortcutChar: 'C',
         soundId: CLAP_SOUND_ID,
         soundFiles: CLAP_SOUND_FILES
     },
-    laugh: {
-        message: ':grinning_face:',
+    smile: {
+        message: ':smile:',
         emoji: '😀',
         shortcutChar: 'L',
         soundId: LAUGH_SOUND_ID,
         soundFiles: LAUGH_SOUND_FILES
     },
-    surprised: {
-        message: ':face_with_open_mouth:',
-        emoji: '😮',
-        shortcutChar: 'O',
+    amazed: {
+        message: ':amazed:',
+        emoji: '😧',
+        shortcutChar: 'A',
         soundId: SURPRISE_SOUND_ID,
         soundFiles: SURPRISE_SOUND_FILES
     },
-    boo: {
-        message: ':slightly_frowning_face:',
-        emoji: '🙁',
-        shortcutChar: 'B',
+    // surprised: {
+    //     message: ':face_with_open_mouth:',
+    //     emoji: '😮',
+    //     shortcutChar: 'O',
+    //     soundId: SURPRISE_SOUND_ID,
+    //     soundFiles: SURPRISE_SOUND_FILES
+    // },
+    // boo: {
+    //     message: ':slightly_frowning_face:',
+    //     emoji: '🙁',
+    //     shortcutChar: 'B',
+    //     soundId: BOO_SOUND_ID,
+    //     soundFiles: BOO_SOUND_FILES
+    // },
+    angry: {
+        message: ':angry:',
+        emoji: '😡',
+        shortcutChar: 'G',
         soundId: BOO_SOUND_ID,
         soundFiles: BOO_SOUND_FILES
     },
-    silence: {
-        message: ':face_without_mouth:',
+    stunned: {
+        message: ':stunned:',
         emoji: '😶',
-        shortcutChar: 'S',
+        shortcutChar: 'U',
         soundId: SILENCE_SOUND_ID,
         soundFiles: SILENCE_SOUND_FILES
     },
-    love: {
-        message: ':heart:',
-        emoji: '💖',
-        shortcutChar: 'H',
+    middleFinger: {
+        message: ':middleFinger:',
+        emoji: '🖕',
+        shortcutChar: 'M',
         soundId: HEART_SOUND_ID,
         soundFiles: HEART_SOUND_FILES
     }

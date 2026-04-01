@@ -84,31 +84,25 @@ export const JitsiMeeting = forwardRef<JitsiRefProps, IAppProps>((props, ref) =>
     useImperativeHandle(ref, () => ({
         close: () => {
             const dispatch = app.current.state.store.dispatch;
-
             dispatch(appNavigate(undefined));
         },
         setAudioOnly: value => {
             const dispatch = app.current.state.store.dispatch;
-
             dispatch(setAudioOnly(value));
         },
         setAudioMuted: muted => {
             const dispatch = app.current.state.store.dispatch;
-
             dispatch(setAudioMuted(muted));
         },
         setVideoMuted: muted => {
             const dispatch = app.current.state.store.dispatch;
-
             dispatch(setVideoMuted(muted));
         },
         getRoomsInfo: () => {
             const state = app.current.state.store.getState();
-
             return getRoomsInfo(state);
         }
     }));
-
     useEffect(
         () => {
             const urlObj = {

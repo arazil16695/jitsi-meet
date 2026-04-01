@@ -18,16 +18,16 @@ package org.jitsi.meet.sdk;
 
 import android.content.Intent;
 import android.util.Log;
- 
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
- 
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
- 
+
 import org.jitsi.meet.sdk.log.JitsiMeetLogger;
- 
+
 import javax.annotation.Nonnull;
 
 /**
@@ -77,11 +77,11 @@ class LogBridgeModule extends ReactContextBaseJavaModule {
     }
     @ReactMethod
     public void jitsiEvent(final String message) {
-        Log.w("ReactNativeJS app.voipbusiness.com", message); // Native Logcat
+        Log.w("x", message); // Native Logcat
         // Optionally use JitsiMeetLogger if you want to log within JitsiMeet logs
         Intent intent = new Intent("org.jitsi.meet.Add_Memeber");
         intent.putExtra("message",message);
         LocalBroadcastManager.getInstance(getReactApplicationContext()).sendBroadcast(intent);
-//        JitsiMeetLogger.w("ReactNativeJS app.voipbusiness.com", message);
+//        JitsiMeetLogger.w("ReactNativeJS app.voipbusiness.com", message)asasa;
     }
 }
